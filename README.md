@@ -11,7 +11,7 @@ Things to replace:
 
 -boilerApp (references in: app.js/index.html)
 
--firstController(s) (name of the file in /public/ and in /controllers/, references in: server.js/app.js/firstController.js)
+-firstController(s) (name of the file in /public/ and in /controllers/, references in: server.js/app.js/firstController.js,index.html)
 
 -firstTemplate (name of the file in public/templates, references in: app.js)
 
