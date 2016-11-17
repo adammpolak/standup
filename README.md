@@ -7,6 +7,8 @@ This also includes authentication set up for easy user authentication.
 
 Things to replace:
 
+-boilerplate_MEAN (references in: index.html)
+
 -boilerApp (references in: app.js/index.html)
 
 -firstController(s) (name of the file in /public/ and in /controllers/, references in: server.js/app.js/firstController.js)
