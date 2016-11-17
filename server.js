@@ -2,7 +2,6 @@ var express = require('express');
 
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-var MongoStore = require('connect-mongo')(session);
 var port = process.env.PORT || 3000;
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/boilerplate_MEAN';
 
@@ -26,7 +25,7 @@ app.use(methodOverride('_method'));
 app.use(express.static(__dirname + '/public'));
 
 app.use(session({
-  secret: 'turnupisthebestappknowntoman loremipsum',
+  secret: 'loremipsum',
   resave: false,
   saveUninitialized: false,
 }));
@@ -38,9 +37,8 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
-app.use('/firstController', require('./controllers/firstcontroller.js'));
+app.use('/firstController', require('./controllers/firstControllers.js'));
 
-var mongoURI = 'mongodb://localhost/todos'
 
 
 
