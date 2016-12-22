@@ -3,3 +3,14 @@
 This is the first test state
 
 This should say 7: {{first.number}}
+
+<button class="" ng-click='first.createCounter()'>
+Create Counter
+</button>
+
+<div class="" ng-repeat='counter in first.allCounters track by $index'>
+  {{counter.value}}
+  <button type="button" name="button" ng-click='first.addValue($index)'>+</button>
+  <button type="button" name="button" ng-click='first.subtractValue($index)'>-</button>
+  <button type="button" name="button" ng-click='first.deleteCounter($index)'>delete counter</button>
+</div>

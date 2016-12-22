@@ -1,5 +1,5 @@
 (function(){
-  angular.module('boilerApp', ['ui.router']).config(MainRouter);
+  angular.module('websiteApp', ['ui.router']).config(MainRouter);
   MainRouter.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
   function MainRouter($stateProvider, $urlRouterProvider, $locationProvider) {
     $stateProvider
