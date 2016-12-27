@@ -3,11 +3,17 @@
   MainRouter.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
   function MainRouter($stateProvider, $urlRouterProvider, $locationProvider) {
     $stateProvider
-    .state('nameOfState', {
-      url: '/nameOfState',
-      templateUrl: 'templates/firstTemplate.html',
-      controller: 'firstController',
-      controllerAs: 'first'
+    .state('counters', {
+      url: '/counters',
+      templateUrl: 'templates/counter.html',
+      controller: 'counterController',
+      controllerAs: 'counter'
+    })
+    .state('landing', {
+      url: '/',
+      templateUrl: 'templates/landing.html',
+      controller: 'counterController',
+      controllerAs: 'counter'
     });
   }
 })()

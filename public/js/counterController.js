@@ -1,9 +1,9 @@
 (function() {
   angular.module('websiteApp')
-  .controller('firstController', firstController);
-  firstController.$inject = ['$http', '$location', '$state', '$timeout'];
+  .controller('counterController', counterController);
+  counterController.$inject = ['$http', '$location', '$state', '$timeout'];
 
-  function firstController($http, $location, $state, $timeout) {
+  function counterController($http, $location, $state, $timeout) {
     var self = this;
     this.number = 7;
     $http.get('/api/counters/')
@@ -30,6 +30,7 @@
       })
     }
     this.addValue = function(index) {
+      console.log('frank');
       var currentCounter = self.allCounters[index];
       currentCounter.value += 1;
       $http.put(`/api/counters`, currentCounter)

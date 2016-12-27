@@ -36,7 +36,7 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use('/api/counters', require('./controllers/firstControllers.js'));
+app.use('/api/counters', require('./controllers/counterControllers.js'));
 
 
 
