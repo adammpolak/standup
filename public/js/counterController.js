@@ -30,7 +30,6 @@
       })
     }
     this.addValue = function(index) {
-      console.log('frank');
       var currentCounter = self.allCounters[index];
       currentCounter.value += 1;
       $http.put(`/api/counters`, currentCounter)

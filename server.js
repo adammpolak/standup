@@ -37,6 +37,9 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use('/api/counters', require('./controllers/counterControllers.js'));
+app.all("/*", function(req,res,next) {
+  res.sendfile("index.html", { root: __dirname + "/public" });
+})
 
 
 
