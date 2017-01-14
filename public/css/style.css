@@ -181,6 +181,10 @@ footer {
   margin: 25px 5px;
 }
 
+#companies {
+  display: flex;
+}
+
 
 @media only screen and (max-width: 992px) {
     #two {
