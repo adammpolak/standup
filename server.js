@@ -36,9 +36,12 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use('/api/counters', require('./controllers/counterControllers.js'));
+app.use('/api/projects', require('./controllers/projectControllers.js'));
+app.use('/api/users', require('./controllers/usersController.js'));
+app.use('/api/helpers', require('./controllers/helpersController.js'));
+
 app.all("/*", function(req,res,next) {
-  res.sendfile("index.html", { root: __dirname + "/public" });
+  res.sendFile("index.html", { root: __dirname + "/public" });
 })
 
 

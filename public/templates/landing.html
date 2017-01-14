@@ -1,21 +1,101 @@
-Hey
+<div class="container-fluid">
+    <div class="col-lg-6 col-lg-offset-3">
+      <div class="circle">
+
+      </div>
+      <br>
+      <br>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="col-lg-6 col-lg-offset-3">
+      <h3 class="text-center lead">Hey, I'm Adam Polak</h3>
+      <br>
+      <br>
+      <h4 class="text-center lead">I do a lot of Product work. Sometimes I work on improving an existing product, sometimes I work on improving an existing process, sometimes I make something new entirely.</h4>
+    </div>
+</div>
 
 <br>
-
-This is Adam Polak's website.
-
+<br>
+<br>
+<br>
 <br>
 
-It's pretty lame right now.
+<div class="container" id='myprojects'>
+
+      <h2 class='text-center good larger'>My Projects</h2>
+      <br>
+      <br>
+      <p class="text-center" ng-if="project.isAdam">
+        <a ng-click="project.newProject()">Add Project</a>
+      </p>
+      <br>
+      <br>
+
+      <div ng-repeat="item in project.allProjects track by $index" ng-class-odd="'col-lg-5 col-md-5 col-sm-5'" ng-class-even="'col-lg-5 col-lg-offset-2 col-md-5 col-md-offset-2 col-sm-5 col-sm-offset-2'" ng-click="project.displayProject(item._id)">
+        <div class="wrapper" >
+
+          <div class="main" >
+            <img src="{{item.imgsrc}}" alt="" >
+            <div class="work-text-content lead">
+              <p>{{item.name}}</p>
+            </div>
+          </div>
+        </div>
+        <br>
+        <h4 class="text-center lead">{{item.short_description}}</h4>
+        <br>
+        <br>
+      </div>
+
+</div>
+
 
 <br>
-
-Currently this is my priority project to understand devops a bit better.
-
+<br>
+<br>
 <br>
 
-Soon I will keep track of my projects and interests and stuff here.
+<p class="text-center good larger">Cool companies I've worked with</p>
+<br>
+<br>
+<br>
+<br>
+<div class="container" id="companies">
+  <button id="carousel-button-left" class="col-xs-1 good"><span class=" glyphicon glyphicon-chevron-left"></span></button>
+  <div class="col-xs-10" id="carousel">
+  </div>
+  <button id="carousel-button-right" class="col-xs-1"><span class=" glyphicon glyphicon-chevron-right"></span></button>
+</div>
 
 <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
-but right now its a way for me to test deployment without the easy tools (no heroku)
+
+<div class="container">
+  <div class="text-center good">
+    <p>Want to help with something I am tinkering with?</p>
+    <p>Want to ask me a question?</p>
+    <p>You found my wallet?</p>
+  </div>
+  <br>
+  <div class="col-xs-8 col-xs-offset-2 good" id="contact">
+    <form class="" ng-submit="project.sendEmail(emailObject)" method="post">
+      Email Address <input type="text" ng-model="emailObject.emailAddress" class="full-width form-control" ><br>
+      Subject <input type="text" ng-model="emailObject.emailSubject" class="full-width form-control" ><br>
+      What's up? <textarea name="name" rows="8" cols="80" class="full-width form-control" ng-model="emailObject.emailBody"></textarea><br>
+      <button type="submit" name="button" class="full-width form-control">send</button>
+    </form>
+  </div>
+</div>
+
+<div class="">
+
+</div>

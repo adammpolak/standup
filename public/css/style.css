@@ -1,0 +1,204 @@
+
+
+.circle {
+  height: 50vh;
+  width: 50vh;
+  border-radius: 50%;
+  background-color: #F6F6F6;
+  margin: auto;
+  margin-top: 15vh;
+}
+
+
+.project-image {
+  width: 100%;
+  height: auto;
+  background-color: black;
+  margin-top: 5vh;
+}
+
+
+.wrapper {
+  width: 100%;
+  /* whatever width you want */
+  display: inline-block;
+  position: relative;
+}
+.wrapper:after {
+  padding-top: 65%;
+  display: block;
+  content: '';
+}
+
+.main {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  /* fill parent */
+  background-color: black;
+  /* let's see it! */
+  color: white;
+}
+
+.main:hover img {
+  opacity: 0.3;
+}
+
+.main:hover .work-text-content {
+  opacity: 1;
+}
+
+.main img {
+  padding: 0;
+  width: 100%;
+  display: block;
+  opacity: 1;
+  max-height: 100%;
+}
+
+.main img,
+.work-text-content {
+  -webkit-transition: opacity 0.5s ease-out;
+  -moz-transition: opacity 0.5s ease-out;
+  -o-transition: opacity 0.5s ease-out;
+  transition: opacity 0.5s ease-out;
+}
+
+.work-text-content {
+  position: absolute;
+  color: white;
+  left: 0;
+  top: 25%;
+  right: 0;
+  bottom: 0;
+  font-size: 24px;
+  text-align: center;
+  opacity: 0;
+}
+
+.bigger {
+  height: 50px
+}
+
+.good {
+  font-family: "Helvetica Neue";
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+.larger {
+  font-size: 36px;
+  margin-bottom: 0px;
+  line-height: 1;
+}
+
+.smaller {
+  font-size: 12px;
+}
+
+.long-description {
+  width: 100%;
+  height: 300px;
+}
+
+.short-description {
+  width: 100%;
+}
+
+.navbar-default {
+  background: none;
+  border: none;
+  border-radius: none;
+  box-shadow: none;
+}
+
+.navbar-toggle {
+  border: none;
+}
+
+#carousel {
+  height: 100px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.carousel-item {
+  width: auto;
+  float: left;
+}
+
+.carousel-item img{
+  max-height: 100px;
+}
+
+#carousel-button-left {
+  height: 100px;
+  background: white;
+  border: none;
+  color: grey;
+}
+
+#carousel-button-left:focus {
+  outline: 0;
+}
+
+#carousel-button-right:focus {
+  outline: 0;
+}
+
+#carousel-button-right {
+  height: 100px;
+  background: white;
+  border: none;
+  color: grey;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.footer {
+  background-color: grey;
+  height: 150px;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin: 0 0 100px; /* bottom = footer height */
+}
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    background-color: #F6F6F6;
+}
+
+.footer-badge {
+  display: flex;
+  /*align-items: center;*/
+  justify-content: center;
+}
+.footer-badge img {
+  max-height: 50px;
+  width: auto;
+  margin: 25px 5px;
+}
+
+
+@media only screen and (max-width: 992px) {
+    #two {
+      display: none;
+    }
+    #three {
+      display: none;
+    }
+}

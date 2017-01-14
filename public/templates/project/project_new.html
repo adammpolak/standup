@@ -1,0 +1,33 @@
+<div class="container">
+  <p class="good larger">Project Name: <input type="text" ng-model="project.activeProject.name" value=""></p>
+  <br>
+  <p>
+    Image Source: <input type="text" name="" value="" ng-model='project.activeProject.imgsrc'>
+  </p>
+  <br>
+  <p>
+    Short description:
+    <input type="text" class="short-description" ng-model="project.activeProject.short_description" value="">
+  </p>
+  <br>
+  <p>
+    Long description:
+    <textarea class="long-description" ng-model="project.activeProject.long_description" value=""></textarea>
+  </p>
+  <br>
+
+<p class="">
+  Links
+</p>
+
+<div class="">
+  <div class="" ng-repeat="link in project.activeProject.links track by $index">
+    Link description:   <input type="text" ng-model="link.description" value="">
+    Link address:    <input type="text" ng-model="link.address" value=""> <button type="button" ng-click="project.removeLink($index)">remove link</button>
+  </div>
+  <button type="button" ng-click="project.addLink()">add link</button>
+</div>
+  <br>
+
+  <button type="button" name="button" ng-click=project.addProject()>Add Project</button>
+</div>

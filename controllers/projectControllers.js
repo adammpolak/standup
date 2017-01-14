@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
-var Counter = require('../models/counter');
+var Project = require('../models/project');
 
 // ROUTE :: GET --------------------------all projects
 router.get('/', function(req, res){
-  Counter.find({}).exec()
-  .then(function(allCounters){
-    console.log(allCounters);
-    res.json(allCounters);
+  Project.find({}).exec()
+  .then(function(allProjects){
+    console.log(allProjects);
+    res.json(allProjects);
   })
   .catch(function(err){
     console.log(err);
@@ -18,10 +18,10 @@ router.get('/', function(req, res){
 // ROUTE :: CREATE ------------------------one project
 router.post('/', function(req, res){
   console.log("req.body:" + req.body);
-  Counter.create(req.body)
-  .then(function(counter){
-    console.log(counter);
-    res.json(counter);
+  Project.create(req.body)
+  .then(function(project){
+    console.log(project);
+    res.json(project);
   })
   .catch(function(err){
     console.log(err);
@@ -31,10 +31,10 @@ router.post('/', function(req, res){
 
 // ROUTE :: GET ---------------------------one project
 router.get('/:pId', function(req, res){
-  Counter.findById(req.params.pId).exec()
-  .then(function(counter){
-    console.log(counter);
-    res.json(counter);
+  Project.findById(req.params.pId).exec()
+  .then(function(project){
+    console.log(project);
+    res.json(project);
   })
   .catch(function(err){
     console.log(err);
@@ -44,10 +44,10 @@ router.get('/:pId', function(req, res){
 
 // ROUTE :: UPDATE ------------------------one project
 router.put('/', function(req, res){
-  Counter.findOneAndUpdate({_id: req.body._id}, req.body, {new: true})
-  .then(function(counter){
-    console.log(counter);
-    res.json(counter);
+  Project.findOneAndUpdate({_id: req.body._id}, req.body, {new: true})
+  .then(function(project){
+    console.log(project);
+    res.json(project);
   })
   .catch(function(err) {
     console.log(err);
@@ -57,10 +57,10 @@ router.put('/', function(req, res){
 
 router.delete('/:id', function(req, res){
   console.log(req.params.id);
-  Counter.remove({_id: req.params.id})
-  .then(function(counter){
-    console.log(counter);
-    res.json(counter);
+  Project.remove({_id: req.params.id})
+  .then(function(project){
+    console.log(project);
+    res.json(project);
   })
   .catch(function(err) {
     console.log(err);
