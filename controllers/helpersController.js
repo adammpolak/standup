@@ -16,6 +16,7 @@ function handleSayHello(req, res) {
   console.log(req.body);
   var transporter = nodemailer.createTransport(smtpTransport({
     service: 'gmail',
+    port: 465,
     auth: {
       user: 'adammpolak@gmail.com',
       pass: password
