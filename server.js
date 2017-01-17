@@ -1,9 +1,10 @@
 var express = require('express');
-
+var session = require('express-session');
+MongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
 var port = process.env.PORT || 3000;
-MongoStore     = require('connect-mongo')(session);
+
+mongoose.Promise = global.Promise;
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/itv';
 
 var path = require('path');
@@ -14,10 +15,9 @@ var methodOverride = require('method-override');
 var User = require('./models/user');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var session = require('express-session');
 
-var app = express();
 mongoose.connect(mongoURI);
+var app = express();
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
