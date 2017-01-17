@@ -3,7 +3,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var port = process.env.PORT || 3000;
-MongoStore     = require('connect-mongo')(session),
+MongoStore     = require('connect-mongo')(session);
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/itv';
 
 var path = require('path');
