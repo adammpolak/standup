@@ -3,6 +3,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var port = process.env.PORT || 3000;
+MongoStore     = require('connect-mongo')(session),
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/itv';
 
 var path = require('path');
@@ -28,6 +29,14 @@ app.use(session({
   secret: 'loremipsum',
   resave: false,
   saveUninitialized: false,
+  maxAge: new Date(Date.now() + 86400000),
+  store: new MongoStore(
+    {mongooseConnection: mongoose.connection},
+    function(err){
+      if (err) {console.log(err)}
+      else {console.log('session saved')}
+    }
+  )
 }));
 app.use(passport.initialize());
 app.use(passport.session());
