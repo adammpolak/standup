@@ -58,6 +58,7 @@
             placeholder-text-single="' '"
             no-results-text="'not a valid time'"
             ng-model="project.dayInputFields.call"
+            ng-disabled = "project.selectedDaysArray.length < 1"
             ng-options="value for value in project.availableTimesCall"
             style="width:100px;">
             <option value=""></option>
@@ -71,6 +72,7 @@
             placeholder-text-single="' '"
             no-results-text="'not a valid time'"
             ng-model="project.dayInputFields.wrap"
+            ng-disabled = "project.selectedDaysArray.length < 1"
             ng-options="value for value in project.availableTimesWrap"
             style="width:100px;">
             <option value=""></option>
@@ -84,6 +86,7 @@
             placeholder-text-single="' '"
             no-results-text="'not a valid time'"
             ng-model="project.dayInputFields.meal1out"
+            ng-disabled = "project.selectedDaysArray.length < 1"
             ng-options="value for value in project.availableTimesMeal1"
             style="width:100px;">
             <option value=""></option>
@@ -97,6 +100,7 @@
             placeholder-text-single="' '"
             no-results-text="'not a valid time'"
             ng-model="project.dayInputFields.meal1in"
+            ng-disabled = "project.selectedDaysArray.length < 1"
             ng-options="value for value in project.availableTimesMeal1"
             style="width:100px;">
             <option value=""></option>
@@ -114,6 +118,7 @@
             placeholder-text-single="' '"
             no-results-text="'not a valid time'"
             ng-model="project.dayInputFields.daytype"
+            ng-disabled = "project.selectedDaysArray.length < 1"
             ng-options="value for value in project.availableDayTypes"
             style="width:100px;">
             <option value=""></option>
@@ -127,6 +132,7 @@
             placeholder-text-single="' '"
             no-results-text="'not a valid time'"
             ng-model="project.dayInputFields.location"
+            ng-disabled = "project.selectedDaysArray.length < 1"
             ng-options="value for value in project.availableLocations"
             style="width:100px;">
             <option value=""></option>
@@ -140,6 +146,7 @@
             placeholder-text-single="' '"
             no-results-text="'not a valid time'"
             ng-model="project.dayInputFields.meal2out"
+            ng-disabled = "project.selectedDaysArray.length < 1"
             ng-options="value for value in project.availableTimesMeal1"
             style="width:100px;">
             <option value=""></option>
@@ -153,6 +160,7 @@
             placeholder-text-single="' '"
             no-results-text="'not a valid time'"
             ng-model="project.dayInputFields.meal2in"
+            ng-disabled = "project.selectedDaysArray.length < 1"
             ng-options="value for value in project.availableTimesMeal1"
             style="width:100px;">
             <option value=""></option>
@@ -166,6 +174,7 @@
       <select id="multiple-select"
       multiple
       ng-model="project.dayInputFields.projects"
+      ng-disabled = "project.selectedDaysArray.length < 1"
       ng-options="value for value in project.availableProjects"
       chosen
       style="width:320px;">
@@ -178,6 +187,7 @@
         placeholder-text-single="' '"
         no-results-text="'not a valid time'"
         ng-model="project.dayInputFields.state"
+        ng-disabled = "project.selectedDaysArray.length < 1"
         ng-options="value for value in project.availableStates"
         style="width:75px;">
         <option value=""></option>
@@ -185,7 +195,8 @@
       </div>
       <div class="input-title-and-field">
         <span class="timecard-input-field-title">PER DIEM</span>
-        <input type="checkbox" name="" value="true" ng-model="project.dayInputFields.perdiem">
+        <input type="checkbox" name="" value="true"
+        ng-disabled = "project.selectedDaysArray.length < 1" ng-model="project.dayInputFields.perdiem">
       </div>
     </div>
 <div class="clearfix">
@@ -194,11 +205,14 @@
 
     </div>
     <div class="apply-button-area">
-      <button type="button" class="btn btn-primary" name="button" ng-click="project.printUser(); project.applyTimes()">apply to: </button>
-      <span class="or-cancel">or <span class="underline">cancel</span></span>
+      <button type="button" class="btn btn-primary" ng-class="{'disabled': project.selectedDaysArray.length < 1}" name="button" ng-click="project.printUser(); project.applyTimes()">
+        <span ng-show="project.selectedDaysArray.length > 0">apply above to selected days</span>
+        <span ng-show="project.selectedDaysArray.length < 1">click on a day to get started</span>
+      </button>
+      <span class="or-cancel" ng-show="project.selectedDaysArray.length > 0">or <a class="underline" ng-click="project.revertActiveTimecard()">cancel</a></span>
     </div>
 
-    <div class="day" ng-click="project.highlightMonday = !project.highlightMonday; project.inputMonday()"ng-class="{'highlighted': project.highlightMonday == true}">
+    <div class="day" ng-click="project.highlightmonday = !project.highlightmonday; project.adjustSelectedDays('monday')"ng-class="{'highlighted': project.highlightmonday == true}">
       <span class="underline">Monday</span>
       Call: {{project.activeTimecard.monday.call}}
       Wrap: {{project.activeTimecard.monday.wrap}}
@@ -210,9 +224,9 @@
       Location: {{project.activeTimecard.monday.location}}
       State: {{project.activeTimecard.monday.state}}
       Per Diem: {{project.activeTimecard.monday.perdiem}}
-      Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
+      Projects: <span ng-repeat='item in project.activeTimecard.monday.projects'>{{item}},</span>
     </div>
-    <div class="day" ng-click="">
+    <div class="day" ng-click="project.highlighttuesday = !project.highlighttuesday; project.adjustSelectedDays('tuesday')"ng-class="{'highlighted': project.highlighttuesday == true}">
       <span class="underline">Tuesday</span>
       Call: {{project.activeTimecard.tuesday.call}}
       Wrap: {{project.activeTimecard.tuesday.wrap}}
@@ -224,9 +238,9 @@
       Location: {{project.activeTimecard.tuesday.location}}
       State: {{project.activeTimecard.tuesday.state}}
       Per Diem: {{project.activeTimecard.tuesday.perdiem}}
-      Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
+      Projects: <span ng-repeat='item in project.activeTimecard.tuesday.projects'>{{item}},</span>
     </div>
-    <div class="day" ng-click="">
+    <div class="day" ng-click="project.highlightwednesday = !project.highlightwednesday; project.adjustSelectedDays('wednesday')"ng-class="{'highlighted': project.highlightwednesday == true}">
       <span class="underline">Wednesday</span>
       Call: {{project.activeTimecard.wednesday.call}}
       Wrap: {{project.activeTimecard.wednesday.wrap}}
@@ -240,7 +254,7 @@
       Per Diem: {{project.activeTimecard.wednesday.perdiem}}
       Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
     </div>
-    <div class="day" ng-click="">
+    <div class="day" ng-click="project.highlightthursday = !project.highlightthursday; project.adjustSelectedDays('thursday')"ng-class="{'highlighted': project.highlightthursday == true}">
       <span class="underline">Thursday</span>
       Call: {{project.activeTimecard.thursday.call}}
       Wrap: {{project.activeTimecard.thursday.wrap}}
@@ -254,7 +268,7 @@
       Per Diem: {{project.activeTimecard.thursday.perdiem}}
       Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
     </div>
-    <div class="day" ng-click="">
+    <div class="day" ng-click="project.highlightfriday = !project.highlightfriday; project.adjustSelectedDays('friday')"ng-class="{'highlighted': project.highlightfriday == true}">
       <span class="underline">Friday</span>
       Call: {{project.activeTimecard.friday.call}}
       Wrap: {{project.activeTimecard.friday.wrap}}
@@ -268,7 +282,7 @@
       Per Diem: {{project.activeTimecard.friday.perdiem}}
       Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
     </div>
-    <div class="day" ng-click="">
+    <div class="day" ng-click="project.highlightsaturday = !project.highlightsaturday; project.adjustSelectedDays('saturday')"ng-class="{'highlighted': project.highlightsaturday == true}">
       <span class="underline">Saturday</span>
       Call: {{project.activeTimecard.saturday.call}}
       Wrap: {{project.activeTimecard.saturday.wrap}}
@@ -282,7 +296,7 @@
       Per Diem: {{project.activeTimecard.saturday.perdiem}}
       Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
     </div>
-    <div class="day" ng-click="">
+    <div class="day" ng-click="project.highlightsunday = !project.highlightsunday; project.adjustSelectedDays('sunday')"ng-class="{'highlighted': project.highlightsunday == true}">
       <span class="underline">Sunday</span>
       Call: {{project.activeTimecard.sunday.call}}
       Wrap: {{project.activeTimecard.sunday.wrap}}

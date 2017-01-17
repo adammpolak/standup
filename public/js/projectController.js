@@ -16,21 +16,173 @@
      self.timecardFilter = filter
    }
 
+   this.saveInitialActiveTimecardVersion = function() {
+     self.savedActiveTimecard = angular.copy(self.activeTimecard)
+   }
+
    this.setTimecard = function(timecard) {
      console.log(timecard);
      self.timecardSelected = timecard.weekending
      self.activeTimecard = timecard
+     self.saveInitialActiveTimecardVersion()
    }
    self.activeTimecardsNumber = 0;
    self.rejectedTimecardsNumber = 0;
    self.approvalsTimecardsNumber = 0;
    self.approvedTimecardsNumber = 0;
 
-   this.printUser = function() {
-     console.log(JSON.stringify(self.user.timecards[0].monday))
+   this.adjustSelectedDays = function(day) {
+     if (day == "monday") {
+       if (!self.highlightmonday) {
+         //so if it is not highlighted that means it was unselected so remove
+         for (var x = 0; x < self.selectedDaysArray.length; x++) {
+           if (self.selectedDaysArray[x].day == "monday") {
+             self.selectedDaysArray.splice(x,1)
+           }
+         }
+       } if (self.highlightmonday) {
+         //this means it was selected so add to the array
+         self.selectedDaysArray.push({day: "monday", fields: self.activeTimecard.monday})
+       }
+     }
+     if (day == "tuesday") {
+       if (!self.highlighttuesday) {
+         //so if it is not highlighted that means it was unselected so remove
+         for (var x = 0; x < self.selectedDaysArray.length; x++) {
+           if (self.selectedDaysArray[x].day == "tuesday") {
+             self.selectedDaysArray.splice(x,1)
+           }
+         }
+       } if (self.highlighttuesday) {
+         //this means it was selected so add to the array
+         self.selectedDaysArray.push({day: "tuesday", fields: self.activeTimecard.tuesday})
+       }
+     }
+     if (day == "wednesday") {
+       if (!self.highlightwednesday) {
+         //so if it is not highlighted that means it was unselected so remove
+         for (var x = 0; x < self.selectedDaysArray.length; x++) {
+           if (self.selectedDaysArray[x].day == "wednesday") {
+             self.selectedDaysArray.splice(x,1)
+           }
+         }
+       } if (self.highlightwednesday) {
+         //this means it was selected so add to the array
+         self.selectedDaysArray.push({day: "wednesday", fields: self.activeTimecard.wednesday})
+       }
+     }
+     if (day == "thursday") {
+       if (!self.highlightthursday) {
+         //so if it is not highlighted that means it was unselected so remove
+         for (var x = 0; x < self.selectedDaysArray.length; x++) {
+           if (self.selectedDaysArray[x].day == "thursday") {
+             self.selectedDaysArray.splice(x,1)
+           }
+         }
+       } if (self.highlightthursday) {
+         //this means it was selected so add to the array
+         self.selectedDaysArray.push({day: "thursday", fields: self.activeTimecard.thursday})
+       }
+     }
+     if (day == "friday") {
+       if (!self.highlightfriday) {
+         //so if it is not highlighted that means it was unselected so remove
+         for (var x = 0; x < self.selectedDaysArray.length; x++) {
+           if (self.selectedDaysArray[x].day == "friday") {
+             self.selectedDaysArray.splice(x,1)
+           }
+         }
+       } if (self.highlightfriday) {
+         //this means it was selected so add to the array
+         self.selectedDaysArray.push({day: "friday", fields: self.activeTimecard.friday})
+       }
+     }
+     if (day == "saturday") {
+       if (!self.highlightsaturday) {
+         //so if it is not highlighted that means it was unselected so remove
+         for (var x = 0; x < self.selectedDaysArray.length; x++) {
+           if (self.selectedDaysArray[x].day == "saturday") {
+             self.selectedDaysArray.splice(x,1)
+           }
+         }
+       } if (self.highlightsaturday) {
+         //this means it was selected so add to the array
+         self.selectedDaysArray.push({day: "saturday", fields: self.activeTimecard.saturday})
+       }
+     }
+     if (day == "sunday") {
+       if (!self.highlightsunday) {
+         //so if it is not highlighted that means it was unselected so remove
+         for (var x = 0; x < self.selectedDaysArray.length; x++) {
+           if (self.selectedDaysArray[x].day == "sunday") {
+             self.selectedDaysArray.splice(x,1)
+           }
+         }
+       } if (self.highlightsunday) {
+         //this means it was selected so add to the array
+         self.selectedDaysArray.push({day: "sunday", fields: self.activeTimecard.sunday})
+       }
+     }
+
+     self.adjustInputTimes();
+   }
+
+   this.selectedDaysArray = []
+
+   this.adjustInputTimes = function() {
+     if (self.selectedDaysArray.length == 0) {
+       self.dayInputFields = {
+         call: "",
+         wrap: "",
+         meal1out: "",
+         meal1in: "",
+         meal2out: "",
+         meal2in: "",
+         daytype: "",
+         location: "",
+         state: "",
+         perdiem: false,
+         projects: []
+       }
+     } else {
+       var lastItem = this.selectedDaysArray.length - 1
+       self.dayInputFields = angular.copy(self.selectedDaysArray[lastItem].fields)
+     }
+   }
+
+   this.revertActiveTimecard = function() {
+     self.activeTimecard = self.savedActiveTimecard
+     self.dayInputFields = {
+       call: "",
+       wrap: "",
+       meal1out: "",
+       meal1in: "",
+       meal2out: "",
+       meal2in: "",
+       daytype: "",
+       location: "",
+       state: "",
+       perdiem: false,
+       projects: []
+     }
+     self.highlightmonday = false
+     self.highlighttuesday = false
+     self.highlightwednesday = false
+     self.highlightthursday = false
+     self.highlightfriday = false
+     self.highlightsaturday = false
+     self.highlightsunday = false
+
+     self.selectedDaysArray = []
+     self.saveInitialActiveTimecardVersion()
    }
 
    this.applyTimes = function() {
+     for (var x = 0; x < self.selectedDaysArray.length; x++) {
+       //this will set the timecards selected days equal to the input fields
+       var day = self.selectedDaysArray[x].day
+       self.activeTimecard[day] = self.dayInputFields
+     }
      $http.put(`/api/users`, self.user)
      .then(function(response){
        console.log(response);
@@ -47,17 +199,38 @@
          perdiem: false,
          projects: []
        }
+       self.saveInitialActiveTimecardVersion()
+       self.revertActiveTimecard()
      })
    }
 
-   this.highlightMonday = false
-
-   this.inputMonday = function() {
-    self.dayInputFields = self.activeTimecard.monday
+   this.highlightmonday = false
+   this.inputmonday = function() {
+     self.dayInputFields = self.activeTimecard.monday
    }
-
-   this.dayHilighted = function(day) {
-
+   this.highlighttuesday = false
+   this.inputtuesday = function() {
+     self.dayInputFields = self.activeTimecard.tuesday
+   }
+   this.highlightwednesday = false
+   this.inputwednesday = function() {
+     self.dayInputFields = self.activeTimecard.wednesday
+   }
+   this.highlightthursday = false
+   this.inputthursday = function() {
+     self.dayInputFields = self.activeTimecard.thursday
+   }
+   this.highlightfriday = false
+   this.inputfriday = function() {
+     self.dayInputFields = self.activeTimecard.friday
+   }
+   this.highlightsaturday = false
+   this.inputsaturday = function() {
+     self.dayInputFields = self.activeTimecard.saturday
+   }
+   this.highlightsunday = false
+   this.inputsunday = function() {
+     self.dayInputFields = self.activeTimecard.sunday
    }
 
    this.dayInputFields = {
@@ -78,6 +251,7 @@
      for (var x = 0; x < timecards.length; x++) {
        if (timecards[x].weekending == date) {
          self.activeTimecard = timecards[x]
+         self.saveInitialActiveTimecardVersion()
          return
        }
      }
