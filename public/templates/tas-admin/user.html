@@ -1,0 +1,95 @@
+<ol class="breadcrumb">
+  <li><a ng-click="project.usersBreadCrumb()" href="tas-admin/users">Users</a></li>
+  <li class="active">{{project.activeUser.firstname}} {{project.activeUser.lastname}}</li>
+</ol>
+
+<div class="container">
+  <div class="col-xs-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading"><h3 class="panel-title">Timecard Approval Flow</h3></div>
+      <div class="panel-body">
+        This will be the approval flow for all the timecards submitted by {{project.activeUser.firstname}}. All users need a minimum of 1 timecard approver. Timecards must be approved in sequence. For a timecard to reach a higher level approver it must be first approved by all lower level approvers.
+      </div>
+      <div class="" ng-repeat="approvalLevel in project.bulkApprovals track by $index">
+        <span class="tcapproval-level-text">Level {{$index+1}} :</span>
+        <select
+        chosen
+        allow-single-deselect="true"
+        placeholder-text-single="'Select approver'"
+        no-results-text="'no such user'"
+        ng-model="project.bulkApprovals[$index].id"
+        ng-options="user._id as user.firstname + ' ' + user.lastname for user in project.allUsers"
+        style="width:150px;">
+        <option value=""></option>
+      </select> <button type="button" name="button" class="btn btn-default btn-sm remove-approval-level" ng-click="project.removeApprovalLevel($index)"><span class="glyphicon glyphicon-minus"></span></button>
+      </div>
+      <button  type="button" name="button" class="add-approval-level-button btn btn-default" ng-click="project.addApprovalLevel()">add approver level</button>
+
+
+
+  </div>
+
+  </div>
+  <div class="col-xs-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading"><h3 class="panel-title">PTO Approval Flow</h3></div>
+      <div class="panel-body">
+        This will be the pto approval flow for {{project.activeUser.firstname}}. Every user needs a PTO approver.
+      </div>
+      <div class="pto-approver-container">
+        <span class="tcapproval-level-text">PTO Approver: </span>
+        <select class="ptoapproval-level-text"
+        chosen
+        allow-single-deselect="true"
+        placeholder-text-single="'Select approver'"
+        no-results-text="'no such user'"
+        ng-model="project.ptoApproval"
+        ng-options="user._id as user.firstname + ' ' + user.lastname for user in project.allUsers"
+        style="width:150px;">
+        <option value=""></option>
+      </select>
+      </div>
+
+    </div>
+  </div>
+  <div class="col-xs-6" ng-show="project.activeUser.tcReviewerOf.length>0 || project.activeUser.ptoReviewerOf.length>0">
+    <div class="panel panel-primary">
+      <div class="panel-heading"><h3 class="panel-title">Reviewer Information</h3></div>
+      <div class="panel-body">
+        This is a list of all users that have {{project.activeUser.firstname}} as an approval in either their timecard or PTO approval flow. Approver privledges can be made inactive if the user will be unable to perform reviews. All timecards currently at John Smith's approver level will automatically go on to the next approver level if he is made inactive.
+        <br>
+        <br>
+        <div class="input-group">
+          Active  <input type="checkbox" name="" value="true" checked>
+
+        </div>
+
+        <h6 class="underline">TC Approver For</h3>
+          <span ng-repeat="user in project.activeUser.tcReviewerOf">{{user.firstname}} {{user.lastname}}, </span>
+
+        <h6 class="underline">PTO Approver For</h3>
+          <span ng-repeat="user in project.activeUser.ptoReviewerOf">{{user.firstname}} {{user.lastname}}, </span>
+      </div>
+      <div class="">
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="col-xs-6 col-xs-offset-3 bulk-approvals-submission-section">
+    <div class="button-and-cancel">
+      <button ng-class="{'disabled': project.bulkApprovals[0].id == '' || project.ptoApproval.id == ''}" type="button" name="button" class="btn btn-primary" ng-click="project.bulkUpdateApprovals()">update approvals for {{project.activeUser.firstname}}</button>
+      <span>or </span><span class="underline" ng-click="project.usersBreadCrumb()">cancel</span>
+
+    </div>
+
+    <div class="explanation-writing">
+      <span>This will overwrite both the timecard approval flow and pto approval flow for {{project.activeUser.firstname}}, this action cannot be undone. This will apply to future timecards submitted by employees, timecards currently in the approval flow will not be affected.</span>
+    </div>
+
+
+  </div>
+
+</div>

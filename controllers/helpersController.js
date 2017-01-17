@@ -2,7 +2,6 @@ var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var express = require('express');
 var router = express.Router();
-var password = require('../password.js')
 
 //helpers/get-user
 router.get('/get-user', function(req, res) {

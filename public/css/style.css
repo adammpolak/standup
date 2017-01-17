@@ -1,74 +1,157 @@
-.project-image {
-  width: 100%;
-  height: auto;
-  background-color: black;
-  margin-top: 5vh;
+.timecard-leftnav-header-text{
+  font-family: "HelveticaNeue-Bold";
+  font-size: 12px;
+  color: #898989;
+  padding: 0px 15px;
 }
 
-
-.wrapper {
-  width: 100%;
-  /* whatever width you want */
-  display: inline-block;
-  position: relative;
-}
-.wrapper:after {
-  padding-top: 65%;
-  display: block;
-  content: '';
+.first-four {
+  float: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px;
 }
 
-.main {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  /* fill parent */
-  background-color: black;
-  /* let's see it! */
+.highlighted {
+  border: 2px solid blue;
+}
+
+.days-header {
+  float: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px;
+}
+
+.timecard-filter-badge {
+  float: right;
+  /*border-radius: 50%;*/
+  background: #999999;
+  width: 30px;
+  border-radius: 40px;
   color: white;
-}
-
-.main:hover img {
-  opacity: 0.3;
-}
-
-.main:hover .work-text-content {
-  opacity: 1;
-}
-
-.main img {
-  padding: 0;
-  width: 100%;
-  display: block;
-  opacity: 1;
-  max-height: 100%;
-}
-
-.main img,
-.work-text-content {
-  -webkit-transition: opacity 0.5s ease-out;
-  -moz-transition: opacity 0.5s ease-out;
-  -o-transition: opacity 0.5s ease-out;
-  transition: opacity 0.5s ease-out;
-}
-
-.work-text-content {
-  position: absolute;
-  color: white;
-  left: 0;
-  top: 25%;
-  right: 0;
-  bottom: 0;
-  font-size: 24px;
   text-align: center;
-  opacity: 0;
 }
 
-.bigger {
-  height: 50px
+.timecard-main {
+  border: 1px solid #979797;
+  border-radius: 5px;
+  background: #FFFFFF;
+  padding: 0px;
+  margin-top: 10px;
+  margin-left: 0px;
+  /*position: fixed;*/
 }
+
+.apply-button-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 0px;
+}
+
+#multiple-select {
+
+}
+
+.timecard-input-area {
+  background: #428BCA;
+  padding: 5px;
+  /*display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;*/*/
+}
+
+.timecard-input-field-title {
+
+}
+
+.input-title-and-field {
+  float: left;
+  width: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.timecard-input-field-title {
+  font-family: "HelveticaNeue-Thin";
+  font-size: 8px;
+  color: #FFFFFF;
+}
+
+
+.timecard-list-date {
+  font-family: "HelveticaNeue";
+  font-size: 12px;
+  color: #9B9B9B;
+}
+
+.timecard-list-timecard {
+  padding: 10px 15px;
+  border-bottom: .5px solid #979797;
+}
+
+.timecard-list-header-container {
+  border-bottom: 1px solid #979797;
+}
+
+
+
+.timecard-filter {
+  padding: 10px 15px;
+}
+
+.selected {
+  background: #428BCA;
+  color: white;
+}
+
+.list-status {
+  position: absolute;
+  left: 125px;
+}
+
+.timecard-list-header {
+  color: grey;
+  font-family: "HelveticaNeue-Thin";
+  padding: 0px 15px;
+}
+
+.selected .timecard-filter-badge {
+  background: white;
+  color: #428BCA;
+}
+.selected .timecard-list-date {
+  color: white;
+}
+
+.timecard-status {
+  border-radius: 5px;
+  padding: 2px 7px;
+  font-family: "Helvetica Neue";
+  font-size: 12px;
+  color: #FFFFFF;
+}
+
+.active-status {
+  background: #7BC1FD;
+}
+
+.rejected-status {
+  background: #D9534F;
+}
+
+.approvals-status {
+  background: #F0AD4E;
+}
+
+.approved-status {
+background: #5CB85C;
+}
+
 
 .good {
   font-family: "Helvetica Neue";
@@ -78,119 +161,193 @@
   line-height: 1.4;
 }
 
-.larger {
-  font-size: 36px;
-  margin-bottom: 0px;
-  line-height: 1;
-}
-
-.smaller {
-  font-size: 12px;
-}
-
-.long-description {
-  width: 100%;
-  height: 300px;
-}
-
-.short-description {
-  width: 100%;
-}
 
 .navbar-default {
-  background: none;
-  border: none;
-  border-radius: none;
-  box-shadow: none;
+  margin-bottom: 0px;
+  background: black;
+  border-bottom: 0px;
+  border-radius: 0px;
+}
+
+.navbar {
+  background: #222222;
+  border-radius: 0px;
 }
 
 .navbar-toggle {
   border: none;
 }
 
-#carousel {
-  height: 100px;
-  display: flex;
-  justify-content: space-around;
+#mytimecards-leftnav {
+  height: 100%;
+  /*float: left;*/
+  border: 1px solid #979797;
+  border-radius: 5px;
+  background: #FFFFFF;
+  padding: 0px;
+  margin-top: 10px;
+  margin-right: 25px;
+  /*position: fixed;*/
 }
 
-.carousel-item {
-  width: auto;
-  float: left;
-}
 
-.carousel-item img{
-  max-height: 100px;
-}
-
-#carousel-button-left {
-  height: 100px;
-  background: white;
-  border: none;
-  color: grey;
-}
-
-#carousel-button-left:focus {
-  outline: 0;
-}
-
-#carousel-button-right:focus {
-  outline: 0;
-}
-
-#carousel-button-right {
-  height: 100px;
-  background: white;
-  border: none;
-  color: grey;
-}
 
 .full-width {
   width: 100%;
 }
 
-.footer {
-  background-color: grey;
-  height: 150px;
+.red {
+  background: red;
 }
 
-html {
-    position: relative;
-    min-height: 100%;
-}
-body {
-    margin: 0 0 100px; /* bottom = footer height */
-}
-footer {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 100px;
-    width: 100%;
-    background-color: #F6F6F6;
+.blue {
+  background: blue;
 }
 
-.footer-badge {
-  display: flex;
-  /*align-items: center;*/
-  justify-content: center;
-}
-.footer-badge img {
-  max-height: 50px;
-  width: auto;
-  margin: 25px 5px;
+.give-it-height {
+  height: 300px;
 }
 
-#companies {
-  display: flex;
+
+.current {
+  /*background-color: #000000;*/
+  color: #898989;
 }
 
+.first {
+  background-color: #CCCCCC;
+  color: #898989;
+}
+
+.first .current {
+  /*background-color: #E6E6E6;*/
+  border-bottom: 2px solid red;
+}
+
+.second {
+  background-color: #F8F8F8;
+  color: #898989;
+}
+
+.second .current {
+  /*background-color: #E7E7E7;*/
+  border-bottom: 2px solid red;
+
+}
+
+.user-table-header {
+  background-color: #E8E8E8;
+  padding: 5px 0px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.user-table-row {
+  padding: 10px 0px;
+}
+
+#users-header {
+  margin: 20px 0px;
+  border: 1px solid grey;
+  padding: 10px ;
+  border-radius: 5px;
+}
+
+.user-table-checkbox {
+}
+
+.user-table-text-name {
+  margin-left: 10px
+}
+
+.user-table-text-status {
+}
+
+.user-table-text-approver {
+}
+
+.user-table-text-adp {
+
+}
+
+.user-table-header-text {
+  font-family: "HelveticaNeue-Bold";
+  font-size: 14px;
+  color: #000000;
+  letter-spacing: 0;
+  line-height: 50px;
+}
+
+.bulk-approvals-submission-section {
+  border: 1px solid grey;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.bulk-approvals-submisison-section-names {
+  font-family: "HelveticaNeue-Light";
+  font-size: 16px;
+  color: #808080;
+}
+
+.or-cancel {
+  margin-left: 10px;
+}
+
+.button-and-cancel {
+  margin-top: 15px;
+  margin-left: 30px;
+  margin-bottom: 10px;
+}
+
+.navbar-fixed-left {
+  width: 140px;
+  position: fixed;
+  border-radius: 0;
+  height: 100%;
+}
+
+.explanation-writing {
+  font-family: "HelveticaNeue";
+  font-size: 10px;
+  color: #808080;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.tcapproval-level-text {
+  margin-left: 15px;
+}
+.remove-approval-level {
+  margin-left: 15px;
+}
+
+.pto-approver-container {
+  margin-bottom: 10px;
+}
+
+.add-approval-level-button {
+  margin-top: 10px;
+  margin-left: 75px;
+  margin-bottom: 10px;
+}
+
+.vieweye {
+  margin-left: 20px;
+}
+
+#user-search-bar {
+  width: 65%;
+  margin: 10px 0px;
+  display: inline;
+}
+
+#user-header-button {
+  float: right;
+  margin: 10px;
+}
 
 @media only screen and (max-width: 992px) {
-    #two {
-      display: none;
-    }
-    #three {
-      display: none;
-    }
+
 }

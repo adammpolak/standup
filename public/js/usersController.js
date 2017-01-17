@@ -1,5 +1,5 @@
 (function(){
-  angular.module('websiteApp')
+  angular.module('itvApp')
     .controller('authControl', authControl)
     authControl.$inject = ['$http', '$state']
   function authControl($http, $state){

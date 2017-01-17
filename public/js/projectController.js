@@ -1,25 +1,121 @@
 (function() {
-  angular.module('websiteApp')
+  angular.module('itvApp')
   .controller('projectController', projectController);
-  projectController.$inject = ['$http', '$location', '$state', '$timeout'];
+  projectController.$inject = ['$http', '$location', '$state', '$timeout', '$scope', '$window'];
 
-  function projectController($http, $location, $state, $timeout) {
+  function projectController($http, $location, $state, $timeout, $scope, $window) {
     var self = this;
-    this.scrollTo = function(id) {
-      $location.hash(id);
-      $anchorScroll();
+    this.number = 7;
+
+    this.timecardFilter = "all"
+    this.timecardSelected = "2017-01-22T08:00:00.000Z"
+    this.availableDays = [{day:"Monday"}, {day:"Tuesday"}, {day:"Wednesday"}, {day:"Thursday"}, {day:"Friday"}, {day: "Saturday"}, {day: "Sunday"}]
+
+   this.setTimecardFilter = function(filter) {
+     console.log(filter);
+     self.timecardFilter = filter
    }
 
-    $http.get('/api/helpers/get-user')
-      .then(function(response) {
-        if (response.data.user) {
-          self.isAdam = true
-          console.log("it's ya boy");
-        }
-      })
-      .catch(function(err){
-        console.log('err', err)
-      })
+   this.setTimecard = function(timecard) {
+     console.log(timecard);
+     self.timecardSelected = timecard.weekending
+     self.activeTimecard = timecard
+   }
+   self.activeTimecardsNumber = 0;
+   self.rejectedTimecardsNumber = 0;
+   self.approvalsTimecardsNumber = 0;
+   self.approvedTimecardsNumber = 0;
+
+   this.printUser = function() {
+     console.log(JSON.stringify(self.user.timecards[0].monday))
+   }
+
+   this.applyTimes = function() {
+     $http.put(`/api/users`, self.user)
+     .then(function(response){
+       console.log(response);
+       self.dayInputFields = {
+         call: "",
+         wrap: "",
+         meal1out: "",
+         meal1in: "",
+         meal2out: "",
+         meal2in: "",
+         daytype: "",
+         location: "",
+         state: "",
+         perdiem: false,
+         projects: []
+       }
+     })
+   }
+
+   this.highlightMonday = false
+
+   this.inputMonday = function() {
+    self.dayInputFields = self.activeTimecard.monday
+   }
+
+   this.dayHilighted = function(day) {
+
+   }
+
+   this.dayInputFields = {
+     call: "",
+     wrap: "",
+     meal1out: "",
+     meal1in: "",
+     meal2out: "",
+     meal2in: "",
+     daytype: "",
+     location: "",
+     state: "",
+     perdiem: false,
+     projects: []
+   }
+
+   this.firstLoadDisplayTimecard = function(date, timecards) {
+     for (var x = 0; x < timecards.length; x++) {
+       if (timecards[x].weekending == date) {
+         self.activeTimecard = timecards[x]
+         return
+       }
+     }
+   }
+
+   this.countTimecardStatuses = function(timecards) {
+     for (var x = 0; x < timecards.length; x++) {
+       if (timecards[x].status == "active") {
+         self.activeTimecardsNumber++
+       }
+       if (timecards[x].status == "rejected") {
+         self.rejectedTimecardsNumber++
+       }
+       if (timecards[x].status == "approvals") {
+         self.approvalsTimecardsNumber++
+       }
+       if (timecards[x].status == "approved") {
+         self.approvedTimecardsNumber++
+       }
+     }
+   }
+
+   this.checkUser = function() {
+     $http.get('/api/helpers/get-user')
+     .then(function(response) {
+       if (response.data.user) {
+         self.user = response.data.user
+         self.countTimecardStatuses(self.user.timecards)
+         self.firstLoadDisplayTimecard("2017-01-22T08:00:00.000Z", self.user.timecards)
+       } else {
+       }
+     })
+     .catch(function(err){
+       console.log('err', err)
+     })
+   }
+   this.checkUser()
+
 
     $http.get('/api/projects/')
     .then(function(response) {
@@ -47,7 +143,6 @@
       }
     }
     this.findProject()
-    console.log(self.activeProject);
 
 
     this.deleteProject = function() {
@@ -68,19 +163,7 @@
       });
     }
 
-    this.newProject = function() {
-      self.activeProject = {name: '', imgsrc: '', short_description: "", long_description: "", links: [{description: "", address: ""}]};
-      sessionStorage.setItem('activeProject', JSON.stringify(self.activeProject));
-      $state.go('project_new');
-    }
 
-    this.addLink = function() {
-      self.activeProject.links.push({description: "", address: ""})
-    }
-
-    this.removeLink = function(index) {
-      self.activeProject.links.splice(index,1)
-    }
 
     this.updateActiveProject = function () {
       sessionStorage.setItem('activeProject', JSON.stringify(self.activeProject))
@@ -91,6 +174,268 @@
         $state.go("project_show")
       })
     };
+
+
+    //tas-admin user stuff
+
+    self.bulkApprovals = [{id: ''}];
+
+    this.addApprovalLevel = function() {
+      self.bulkApprovals.push({id: ""})
+      console.log(self.bulkApprovals);
+    }
+    self.ptoApproval = ""
+
+    this.removeApprovalLevel = function(index) {
+      self.bulkApprovals.splice(index,1)
+    }
+
+    this.setBulkApprovals = function() {
+      //prepare 1 user info
+      //do loop over selected users doing find 1 and update
+
+    }
+    this.userFilter = 'all'
+
+    this.setUserFilter = function(status) {
+      self.userFilter = status
+    }
+
+    this.selectedUsers = []
+
+    self.createSelectedUsersList = function() {
+      self.selectedUsers = []
+      for (var x= 0; x<self.allUsers.length; x++) {
+        if (self.allUsers[x].selected) {
+          self.selectedUsers.push(self.allUsers[x]);
+        }
+      }
+    }
+
+    self.setApprovals = function() {
+      self.createSelectedUsersList()
+      self.settingApprovals = true;
+      sessionStorage.setItem('selectedUsers', JSON.stringify(self.selectedUsers))
+      $state.go('tas-admin.users.setapprovals', {url: '/tas-admin/users/setapprovals'})
+    }
+    self.loadedUsers = JSON.parse(sessionStorage.getItem('selectedUsers'))
+
+    self.settingApprovals = false;
+
+    this.viewUser = function(user) {
+      self.settingApprovals = true;
+      sessionStorage.setItem('activeUser', JSON.stringify(user))
+      $state.go('tas-admin.users.user', {url: '/tas-admin/users/user'})
+
+    }
+    if ($state.current.name == "tas-admin.users.user") {
+      self.activeUser = JSON.parse(sessionStorage.getItem('activeUser'))
+      self.loadedUsers.push(self.activeUser)
+      if (self.activeUser.tcApprovalFlow) {
+        self.bulkApprovals = []
+        for (var x = 1; x<6; x++) {
+          if (self.activeUser.tcApprovalFlow[x]) {
+            self.bulkApprovals.push({id: self.activeUser.tcApprovalFlow[x]})
+          }
+        }
+      }
+      self.ptoApproval = self.activeUser.ptoApprovalFlow
+      console.log("REMADE APPROVALS: "+JSON.stringify(self.bulkApprovals));
+      console.log("LOADED USERS: "+ JSON.stringify(self.loadedUsers));
+    }
+
+
+    this.usersBreadCrumb = function() {
+      $window.location.href = '/tas-admin/users';
+    }
+
+    this.selectedApprover = {}
+
+    this.bulkUpdateApprovals = function() {
+      //this part creates the approval flow object to be used
+      var tcApprovalFlow = {}
+      for (var x = 0; x < self.bulkApprovals.length; x++) {
+        y = x + 1
+        tcApprovalFlow[y] = self.bulkApprovals[x].id
+      }
+      //this part creates the PTO approval flow to be used
+      var ptoApprovalFlow = ""
+      ptoApprovalFlow = self.ptoApproval
+      //this part goes through each user that is going to be affected
+      for (var i = 0; i < self.loadedUsers.length; i++) {
+        //this part checks to make sure peoples tcReviewerOf  and ptoReviewerOf is updated
+        self.checkIfNewTCApprover(self.loadedUsers[i])
+        self.checkIfStillTCApprover(self.loadedUsers[i])
+        self.checkIfNewPTOApprover(self.loadedUsers[i])
+        self.checkIfStillPTOApprover(self.loadedUsers[i])
+        //this part creates the objects that will be sent to the update route
+        var userWithFlows = {}
+        userWithFlows._id = self.loadedUsers[i]._id
+        userWithFlows.tcApprovalFlow = tcApprovalFlow
+        userWithFlows.ptoApprovalFlow = ptoApprovalFlow
+        console.log(JSON.stringify(userWithFlows));
+        //this part actually updates the users with the new flow
+        $http.put(`/api/users`, userWithFlows)
+        .then(function(response){
+          console.log(response);
+        })
+      }
+      //this part brings us back to users with updated info
+      self.usersBreadCrumb()
+    }
+
+    this.updateUser = function(userObj) {
+      $http.put(`/api/users`, userObj)
+      .then(function(response){
+        console.log(response);
+      })
+    }
+
+    this.checkIfNewTCApprover = function(user) {
+      console.log("DOING NEW TC CHECK FOR: "+ user.firstname);
+      for (var x = 0; x<self.bulkApprovals.length;x++) {
+        var approver = self.bulkApprovals[x].id
+        //currently going through each approval level and checking the approver id versus the users current tcApprovalFlow ids
+        var alreadyApprover = false;
+        for (var variable in user.tcApprovalFlow) {
+          if (user.tcApprovalFlow.hasOwnProperty(variable)) {
+            if (variable != '_id') {
+              //now we are checking every level in flow
+              if (approver == user.tcApprovalFlow[variable])
+              alreadyApprover = true;
+            }
+          }
+        }
+        //now we are done with our check if alreadyApprover is still false which means this is a new approver we will update the approver's list
+        if (!alreadyApprover) {
+          console.log("THIS IS A NEW TC APPROVER");
+          var approverObject = self.findUserById(approver)
+          var revieweeObject = {
+            id: user._id,
+            firstname: user.firstname,
+            lastname: user.lastname }
+            var updatedApprover = {}
+            updatedApprover._id = approverObject._id
+            updatedApprover.tcReviewerOf = [];
+            updatedApprover.tcReviewerOf = approverObject.tcReviewerOf
+            updatedApprover.tcReviewerOf.push(revieweeObject)
+            console.log(updatedApprover);
+            $http.put(`/api/users`, updatedApprover)
+            .then(function(response){
+              console.log();
+              console.log(response);
+            })
+
+        }
+      }
+    }
+
+    this.checkIfStillTCApprover = function(user) {
+      console.log("DOING STILL TC CHECK FOR: "+ user.firstname);
+      for (var variable in user.tcApprovalFlow) {
+        if (user.tcApprovalFlow.hasOwnProperty(variable)) {
+          if (variable != '_id') {
+            var approver = user.tcApprovalFlow[variable]
+            //we are going through the users current flow and checking if there is a match with the new flow
+            var stillApprover = false
+            for (var x = 0; x<self.bulkApprovals.length;x++) {
+              if (approver == self.bulkApprovals[x].id) {
+                stillApprover = true
+              }
+            }
+            //if it is no longer an approver we must update
+            if (!stillApprover) {
+              console.log("THIS IS A NOT STILL TC APPROVER");
+              var approverObject = self.findUserById(approver)
+                var updatedApprover = {}
+                updatedApprover._id = approverObject._id
+                var updatedApprovertcReviewerOf = []
+                updatedApprovertcReviewerOf = approverObject.tcReviewerOf
+                //in this space must remove user from reviewerof array
+                for(var i = 0; i < updatedApprovertcReviewerOf.length; i++) {
+                    if(updatedApprovertcReviewerOf[i].id == user._id) {
+                        updatedApprovertcReviewerOf.splice(i, 1);
+                    }
+                }
+
+                  updatedApprover.tcReviewerOf = updatedApprovertcReviewerOf
+                  $http.put(`/api/users`, updatedApprover)
+                  .then(function(response){
+                    console.log(response);
+                  })
+
+            }
+
+          }
+        }
+      }
+    }
+
+    this.findUserById = function(id) {
+      for (var x = 0; x< self.allUsers.length; x++) {
+        if (self.allUsers[x]._id == id) {
+          return self.allUsers[x]
+        }
+      }
+    }
+    this.checkIfNewPTOApprover = function(user) {
+      console.log("DOING NEW PTO CHECK FOR: "+ user.firstname);
+      if (user.ptoApprovalFlow != self.ptoApproval) {
+        console.log("THIS IS A NEW PTO APPROVER");
+        var approverObject = self.findUserById(self.ptoApproval)
+          var revieweeObject = {
+            id: user._id,
+            firstname: user.firstname,
+            lastname: user.lastname }
+            var updatedApprover = {}
+            updatedApprover._id = approverObject._id
+            updatedApprover.ptoReviewerOf = [];
+            updatedApprover.ptoReviewerOf = approverObject.ptoReviewerOf
+            updatedApprover.ptoReviewerOf.push(revieweeObject)
+            console.log(updatedApprover)
+            $http.put(`/api/users`, updatedApprover)
+            .then(function(response){
+              console.log(response);
+            })
+            .catch(function(err){
+              console.log('err', err)
+            })
+
+      }
+    }
+    this.checkIfStillPTOApprover = function(user) {
+      console.log("DOING STILL PTO CHECK FOR: "+ user.firstname);
+      if (user.ptoApprovalFlow != self.ptoApproval && user.ptoApprovalFlow) {
+        console.log("THIS IS NOT STILL A PTO APPROVER");
+        var approverObject = self.findUserById(user.ptoApprovalFlow)
+          if (approverObject.ptoReviewerOf) {
+
+            var updatedApprover = {}
+            updatedApprover._id = approverObject._id
+            var updatedApproverptoReviewerOf = []
+            updatedApproverptoReviewerOf = approverObject.ptoReviewerOf
+            console.log();
+            //in this space must remove user from reviewerof array
+            for(var i = 0; i < updatedApproverptoReviewerOf.length; i++) {
+              if(updatedApproverptoReviewerOf[i].id == user._id) {
+                updatedApproverptoReviewerOf.splice(i, 1);
+              }
+            }
+            updatedApprover.ptoReviewerOf = updatedApproverptoReviewerOf
+            $http.put(`/api/users`, updatedApprover)
+            .then(function(response){
+              console.log(response);
+            })
+          }
+
+      }
+    }
+
+
+
+
+
+
 
 
     //email stuff
@@ -125,26 +470,392 @@
     }
 
     this.login = function(userObj){
-      $http.post('api/users/login', {username: "Adam", password: userObj.password})
+      $http.post('api/users/login', {username: userObj.username, password: userObj.password})
       .then(function(res){
+
         if (res.data.message) {
           alert('Nice try nerd, that is not a user, get it together')
         } else {
-          self.user = res.data.user;
-          self.isAdam = true;
-          $state.go('landing', {reload: true});
-          window.location.reload(true);
+          if (userObj.username == 'admin1@itv.com') {
+            $window.location.href = '/tas-admin/users';
+          } else {
+            $window.location.href = '/tas/mytimecards';
+          }
         }
       })
     }
-    this.userObject;
+
+
+
+    if ($state.current.name == "tas-admin.users" || $state.current.name == "tas-admin.users.setapprovals" || $state.current.name == "tas-admin.users.user") {
+      $http.get('/api/users/')
+      .then(function(response) {
+        self.allUsers = response.data;
+        self.importedUsers = 0;
+        self.invitesentUsers = 0;
+        self.activeUsers = 0;
+        for (var x=0; x<self.allUsers.length; x++) {
+          if (self.allUsers[x].status == 'imported') {
+            self.importedUsers++;
+          } if (self.allUsers[x].status == 'invite sent') {
+            self.invitesentUsers++;
+          } if (self.allUsers[x].status == 'active') {
+            self.activeUsers++;
+          }
+        }
+
+      })
+      .catch(function(err) {
+        console.log('err', err);
+      })
+    }
 
     this.logout = function() {
       $http.delete('/api/users/logout')
       .then(function(response){
-        $state.go('landing',{}, {url: '/'});
-        window.location.reload(true);
+        // $state.go('landing',{}, {url: '/'});
+        // window.location.reload(true);
+        $window.location.href = '/';
       });
     }
+
+    this.availableTimesCall = [
+      "6:00am",
+      "6:15am",
+      "6:30am",
+      "6:45am",
+      "7:00am",
+      "7:15am",
+      "7:30am",
+      "7:45am",
+      "8:00am",
+      "8:15am",
+      "8:30am",
+      "8:45am",
+      "8:00am",
+      "9:15am",
+      "9:30am",
+      "9:45am",
+      "9:00am",
+      "10:15am",
+      "10:30am",
+      "10:45am",
+      "11:00am",
+      "11:15am",
+      "11:30am",
+      "11:45am",
+      "12:00pm",
+      "12:15pm",
+      "12:30pm",
+      "12:45pm",
+      "1:00pm",
+      "1:15pm",
+      "1:30pm",
+      "1:45pm",
+      "2:00pm",
+      "2:15pm",
+      "2:30pm",
+      "2:45pm",
+      "3:00pm",
+      "3:15pm",
+      "3:30pm",
+      "3:45pm",
+      "4:00pm",
+      "4:15pm",
+      "4:30pm",
+      "4:45pm",
+      "5:00pm",
+      "5:15pm",
+      "5:30pm",
+      "5:45pm",
+      "6:00pm",
+      "6:15pm",
+      "6:30pm",
+      "6:45pm",
+      "7:00pm",
+      "7:15pm",
+      "7:30pm",
+      "7:45pm",
+      "8:00pm",
+      "8:15pm",
+      "8:30pm",
+      "8:45pm",
+      "8:00pm",
+      "9:15pm",
+      "9:30pm",
+      "9:45pm",
+      "9:00pm",
+      "10:15pm",
+      "10:30pm",
+      "10:45pm",
+      "10:00pm",
+      "11:15pm",
+      "11:30pm",
+      "11:45pm",
+      "12:00am",
+      "12:15am",
+      "12:30am",
+      "12:45am",
+      "1:00am",
+      "1:15am",
+      "1:30am",
+      "1:45am",
+      "2:00am",
+      "2:15am",
+      "2:30am",
+      "2:45am",
+      "3:00am",
+      "3:15am",
+      "3:30am",
+      "3:45am",
+      "4:00am",
+      "4:15am",
+      "4:30am",
+      "4:45am",
+      "5:00am",
+      "5:15am",
+      "5:30am",
+      "5:45am",
+    ]
+    this.availableTimesMeal1 = [
+      "10:30am",
+      "10:45am",
+      "11:00am",
+      "11:15am",
+      "11:30am",
+      "11:45am",
+      "12:00pm",
+      "12:15pm",
+      "12:30pm",
+      "12:45pm",
+      "1:00pm",
+      "1:15pm",
+      "1:30pm",
+      "1:45pm",
+      "2:00pm",
+      "2:15pm",
+      "2:30pm",
+      "2:45pm",
+      "3:00pm",
+      "3:15pm",
+      "3:30pm",
+      "3:45pm",
+      "4:00pm",
+      "4:15pm",
+      "4:30pm",
+      "4:45pm",
+      "5:00pm",
+      "5:15pm",
+      "5:30pm",
+      "5:45pm",
+      "6:00pm",
+      "6:15pm",
+      "6:30pm",
+      "6:45pm",
+      "7:00pm",
+      "7:15pm",
+      "7:30pm",
+      "7:45pm",
+      "8:00pm",
+      "8:15pm",
+      "8:30pm",
+      "8:45pm",
+      "8:00pm",
+      "9:15pm",
+      "9:30pm",
+      "9:45pm",
+      "9:00pm",
+      "10:15pm",
+      "10:30pm",
+      "10:45pm",
+      "10:00pm",
+      "11:15pm",
+      "11:30pm",
+      "11:45pm",
+      "12:00am",
+      "12:15am",
+      "12:30am",
+      "12:45am",
+      "1:00am",
+      "1:15am",
+      "1:30am",
+      "1:45am",
+      "2:00am",
+      "2:15am",
+      "2:30am",
+      "2:45am",
+      "3:00am",
+      "3:15am",
+      "3:30am",
+      "3:45am",
+      "4:00am",
+      "4:15am",
+      "4:30am",
+      "4:45am",
+      "5:00am",
+      "5:15am",
+      "5:30am",
+      "5:45am",
+      "6:00am",
+      "6:15am",
+      "6:30am",
+      "6:45am",
+      "7:00am",
+      "7:15am",
+      "7:30am",
+      "7:45am",
+      "8:00am",
+      "8:15am",
+      "8:30am",
+      "8:45am",
+      "8:00am",
+      "9:15am",
+      "9:30am",
+      "9:45am",
+      "9:00am",
+      "10:15am"
+    ]
+    this.availableTimesWrap = [
+      "4:00pm",
+      "4:15pm",
+      "4:30pm",
+      "4:45pm",
+      "5:00pm",
+      "5:15pm",
+      "5:30pm",
+      "5:45pm",
+      "6:00pm",
+      "6:15pm",
+      "6:30pm",
+      "6:45pm",
+      "7:00pm",
+      "7:15pm",
+      "7:30pm",
+      "7:45pm",
+      "8:00pm",
+      "8:15pm",
+      "8:30pm",
+      "8:45pm",
+      "8:00pm",
+      "9:15pm",
+      "9:30pm",
+      "9:45pm",
+      "9:00pm",
+      "10:15pm",
+      "10:30pm",
+      "10:45pm",
+      "10:00pm",
+      "11:15pm",
+      "11:30pm",
+      "11:45pm",
+      "12:00am",
+      "12:15am",
+      "12:30am",
+      "12:45am",
+      "1:00am",
+      "1:15am",
+      "1:30am",
+      "1:45am",
+      "2:00am",
+      "2:15am",
+      "2:30am",
+      "2:45am",
+      "3:00am",
+      "3:15am",
+      "3:30am",
+      "3:45am",
+      "4:00am",
+      "4:15am",
+      "4:30am",
+      "4:45am",
+      "5:00am",
+      "5:15am",
+      "5:30am",
+      "5:45am",
+      "6:00am",
+      "6:15am",
+      "6:30am",
+      "6:45am",
+      "7:00am",
+      "7:15am",
+      "7:30am",
+      "7:45am",
+      "8:00am",
+      "8:15am",
+      "8:30am",
+      "8:45am",
+      "8:00am",
+      "9:15am",
+      "9:30am",
+      "9:45am",
+      "9:00am",
+      "10:15am",
+      "10:30am",
+      "10:45am",
+      "11:00am",
+      "11:15am",
+      "11:30am",
+      "11:45am",
+      "12:00pm",
+      "12:15pm",
+      "12:30pm",
+      "12:45pm",
+      "1:00pm",
+      "1:15pm",
+      "1:30pm",
+      "1:45pm",
+      "2:00pm",
+      "2:15pm",
+      "2:30pm",
+      "2:45pm",
+      "3:00pm",
+      "3:15pm",
+      "3:30pm",
+      "3:45pm",
+    ]
+    this.availableStates = [
+      "CA","AK","AL","AR","AZ","CO","CT","DC","DE","FL","GA","GU","HI","IA","ID","NY", "IL","IN","KS","KY","LA","MA","MD","ME","MH","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV", "OH","OK","OR","PA","PR","PW","RI","SC","SD","TN","TX","UT","VA","VI","VT","WA","WI","WV","WY"
+    ]
+    this.availableProjects = [
+      "FIS321",
+      "DIR295",
+      "QOV593",
+      "DHS039",
+      "DHE165",
+      "NBG765",
+      "SDF432",
+      "AWD365",
+      "TOI897",
+      "DRF432",
+      "FYT567",
+      "SAQ123",
+      "FRD435",
+      "KOL098",
+      "TCV576",
+      "FDE321",
+      "GBH765",
+      "GYH789",
+      "QAS234",
+      "ZXD456",
+      "1QW234",
+      "ASW456",
+      "CAS321",
+      "GER432",
+      "DSW321",
+    ]
+    this.availableDayTypes = [
+      "WORK",
+      "IDLE",
+      "TRAVEL",
+      "IDLE",
+      "PTO"
+    ]
+    this.availableLocations = [
+      "OFFICE",
+      "ON LOCATION",
+      "STUDIO",
+      "OFF STUDIO"
+    ]
+
   }
 })()
