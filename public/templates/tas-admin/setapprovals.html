@@ -21,7 +21,7 @@
         ng-options="user._id as user.firstname + ' ' + user.lastname for user in project.allUsers"
         style="width:150px;">
         <option value=""></option>
-      </select> <button type="button" name="button" class="btn btn-default btn-sm remove-approval-level" ng-click="project.removeApprovalLevel($index)"><span class="glyphicon glyphicon-minus"></span></button>
+      </select> <button type="button" name="button" class="btn btn-default btn-sm remove-approval-level" ng-click="project.removeApprovalLevel($index)"><span class="glyphicon glyphicon-minus-sign"></span></button>
       </div>
       <button  type="button" name="button" class="add-approval-level-button btn btn-default" ng-click="project.addApprovalLevel()">add approver level</button>
 

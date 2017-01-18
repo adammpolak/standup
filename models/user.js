@@ -20,10 +20,10 @@ var UserSchema = new Schema({
   hasReviews: Boolean,
   tcReviewerOf: [],
   ptoReviewerOf: [],
-  reviews: [reviewsSchema],
-  approved: [timecardSchema],
-  status: String
-},{timestamps: true});
+  reviews: [],
+  approved: [],
+  status: String},
+  {timestamps: true});
 
 UserSchema.plugin(passportLocalMongoose);
 

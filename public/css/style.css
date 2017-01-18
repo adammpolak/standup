@@ -5,6 +5,74 @@
   padding: 0px 15px;
 }
 
+.height {
+  height: 50px;
+  background: blue;
+}
+
+.approval-flow-display {
+  width: 20%;
+  display: inline-block;
+}
+
+.submit-for-approval-area {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px
+}
+
+.display-days-section {
+  padding: 15px;
+  font-family: "HelveticaNeue";
+  font-size: 14px;
+  color: #898989;
+}
+
+.display-days-section-read-only {
+  padding: 15px;
+  font-family: "HelveticaNeue";
+  font-size: 14px;
+  color: #898989;
+}
+
+.approver-level {
+  font-size: 12px;
+  padding: 7px;
+  font-family: "HelveticaNeue-Light";
+  color: #898989;
+}
+
+.history-level {
+  font-size: 12px;
+  padding: 7px;
+  font-family: "HelveticaNeue-Light";
+  color: #898989;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.history-section {
+  width:38%;
+  display: inline-block;
+}
+
+.comments-section {
+  width: 38%;
+  display: inline-block;
+}
+
+/*.panel-body {
+  padding: 0px;
+}*/
+
+.approval-history-comments-section {
+  padding: 10px 5px 5px 5px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
 .first-four {
   float: right;
   display: flex;
@@ -109,9 +177,18 @@
   color: white;
 }
 
+.level-not-approved {
+  color: #F0AD4E;
+}
+
+.level-approved {
+  color: green;
+}
+
 .list-status {
   position: absolute;
   left: 125px;
+  font-family: "HelveticaNeue-Thin";
 }
 
 .timecard-list-header {
@@ -133,7 +210,6 @@
   padding: 2px 7px;
   font-family: "Helvetica Neue";
   font-size: 12px;
-  color: #FFFFFF;
 }
 
 .active-status {

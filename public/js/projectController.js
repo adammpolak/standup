@@ -24,6 +24,14 @@
      console.log(timecard);
      self.timecardSelected = timecard.weekending
      self.activeTimecard = timecard
+     self.selectedDaysArray = [];
+     this.highlightmonday = false
+      this.highlighttuesday = false
+      this.highlightwednesday = false
+      this.highlightthursday = false
+      this.highlightfriday = false
+      this.highlightsaturday = false
+      this.highlightsunday = false
      self.saveInitialActiveTimecardVersion()
    }
    self.activeTimecardsNumber = 0;
@@ -128,6 +136,7 @@
    }
 
    this.selectedDaysArray = []
+
 
    this.adjustInputTimes = function() {
      if (self.selectedDaysArray.length == 0) {
@@ -258,6 +267,10 @@
    }
 
    this.countTimecardStatuses = function(timecards) {
+     self.activeTimecardsNumber = 0;
+     self.rejectedTimecardsNumber = 0;
+     self.approvalsTimecardsNumber = 0;
+     self.approvedTimecardsNumber = 0;
      for (var x = 0; x < timecards.length; x++) {
        if (timecards[x].status == "active") {
          self.activeTimecardsNumber++
@@ -289,35 +302,40 @@
      })
    }
    this.checkUser()
+   self.currentUserApprovalFlow = []
+   this.currentApprovalFlow = function(tcflow) {
+     //even though we have an approval flow it would be easier if it was in an array that was easy to reference
+     if (tcflow) {
+       for (var x = 1; x<6; x++) {
+         if (tcflow[x]) {
+           var currentApprover = self.findUserById(tcflow[x])
+           self.currentUserApprovalFlow.push({level: x, id: currentApprover._id, approved: false, first: currentApprover.firstname, last: currentApprover.lastname})
+         }
+       }
+     }
+     console.log(JSON.stringify(self.currentUserApprovalFlow));
+   }
 
+   this.submitTimecardForApproval = function() {
+     var now = new Date()
+     self.activeTimecard.approvalflow = self.currentUserApprovalFlow //this attaches approval flow to tc
+     self.activeTimecard.status = 'approvals' //changes tc status
+     self.activeTimecard.history.push({first: self.user.firstname, last: self.user.lastname, action: "submitted", time: now}) //updates history
+     var approver = self.findUserById(self.currentUserApprovalFlow[0].id)
+     approver.reviews.push(self.activeTimecard) //puts it in the queue
+     self.countTimecardStatuses(self.user.timecards)
+    //  console.log(JSON.stringify(self.activeTimecard));
+    //  $http.put(`/api/users`, self.user)
+    //  .then(function(response){
+    //    $http.put(`/api/users`, approver)
+    //    .then(function(response){
+    //      }
+    //    }
+   }
 
-    $http.get('/api/projects/')
-    .then(function(response) {
-      self.allProjects = response.data;
-    })
-    .catch(function(err) {
-      console.log('err', err);
-    })
+   this.makeTimecardApprovalFlow = function() {
 
-    this.displayProject = function(id) {
-      sessionStorage.setItem('activeProjectId', JSON.stringify(id))
-      $state.go('project_show')
-    }
-
-    this.findProject = function() {
-      if ($state.current.name == 'project_show') {
-        self.activeProjectId = JSON.parse(sessionStorage.getItem('activeProjectId'));
-        $http.get(`/api/projects/${self.activeProjectId}`)
-        .then(function(response){
-          self.activeProject = response.data;
-          sessionStorage.setItem('activeProject', JSON.stringify(self.activeProject))
-        })
-      } else {
-        this.activeProject = JSON.parse(sessionStorage.getItem('activeProject'));
-      }
-    }
-    this.findProject()
-
+   }
 
     this.deleteProject = function() {
       $http.delete(`/api/projects/${self.activeProject._id}`)
@@ -661,13 +679,14 @@
 
 
 
-    if ($state.current.name == "tas-admin.users" || $state.current.name == "tas-admin.users.setapprovals" || $state.current.name == "tas-admin.users.user") {
+    if ($state.current.name == "tas-admin.users" || $state.current.name == "tas-admin.users.setapprovals" || $state.current.name == "tas-admin.users.user" || $state.current.name == "tas.mytimecards") {
       $http.get('/api/users/')
       .then(function(response) {
         self.allUsers = response.data;
         self.importedUsers = 0;
         self.invitesentUsers = 0;
         self.activeUsers = 0;
+        self.currentApprovalFlow(self.user.tcApprovalFlow)
         for (var x=0; x<self.allUsers.length; x++) {
           if (self.allUsers[x].status == 'imported') {
             self.importedUsers++;
