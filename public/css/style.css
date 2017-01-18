@@ -54,6 +54,23 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.comment-level {
+  font-size: 12px;
+  padding: 7px;
+  font-family: "HelveticaNeue-Light";
+  color: #898989;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.comment-text {
+  font-family: "HelveticaNeue-bold";
+
 }
 
 .history-section {
@@ -144,6 +161,36 @@
   border-radius: 40px;
   color: white;
   text-align: center;
+}
+
+.review-reject {
+  width: 200px;
+  margin-bottom: 5px;
+}
+
+.review-reject-button-and-comments {
+  margin-bottom: 10px;
+  margin-left: 20px;
+}
+
+.rejection-comments {
+  width: 200px
+}
+
+.review-approve {
+  width: 200px;
+  margin-bottom: 10px;
+}
+
+.reviews-submit-for-approval-area {
+  display: flex;
+  justify-content: center;
+}
+
+.reviews-timecard-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .timecard-main {

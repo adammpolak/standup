@@ -29,7 +29,12 @@
               if (!res.data.user) {
                 $state.go('landing', {url: '/'});
               } else {
-                $state.go('tas.mytimecards', {url: 'tas/mytimecards'})
+                if (res.data.user.reviews.length>0) {
+                  $state.go('tas.reviews', {url: 'tas/reviews'})
+                } else {
+                  $state.go('tas.mytimecards', {url: 'tas/mytimecards'})
+
+                }
               }
             })
           }

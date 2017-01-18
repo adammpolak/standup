@@ -12,13 +12,14 @@
     this.availableDays = [{day:"monday"}, {day:"tuesday"}, {day:"wednesday"}, {day:"thursday"}, {day:"friday"}, {day: "saturday"}, {day: "sunday"}]
 
    this.setTimecardFilter = function(filter) {
-     console.log(filter);
      self.timecardFilter = filter
    }
 
    this.saveInitialActiveTimecardVersion = function() {
      self.savedActiveTimecard = angular.copy(self.activeTimecard)
    }
+
+
 
    this.setTimecard = function(timecard) {
      self.timecardSelected = timecard.weekending
@@ -355,6 +356,88 @@
      }
    }
 
+   this.allReviews = [];
+
+   this.reviewsApproveTimecard = function(index) {
+     var now = new Date()
+     var timecard = self.allReviews[index]
+     var approverLength = timecard.approvalflow.length;
+     var x = 0
+     //check if user is last approver
+     while (timecard.approvalflow[x]['approved'] == true) {
+       x++
+     }
+     //check if need to change timecard status to approved
+     if (approverLength = (x +1)) {
+       timecard.status = 'approved'
+     }
+
+     timecard.approvalflow[x].approved = true //changed timecard status
+    //update timecard history
+     timecard.history.push({first: self.user.firstname, last: self.user.lastname, action: "approved", time: now})
+
+     var owner = self.findUserById(timecard.ownerid) //find user
+     //this part find this timecard in the owners timecards and updates it
+     for (var y = 0; y< owner.timecards.length; y++) {
+       if (owner.timecards[y]._id == timecard._id) {
+         owner.timecards[y] = timecard
+       }
+     }
+     var nextapprover = {}
+     //now will add this timecard to "approved" timecards list, not full data so it will always have latest approval flow
+     self.user.approved.push({ownerid: owner._id,timecardid: timecard._id})
+     //remove this timecard from users reviews
+     self.user.reviews.splice(index,1)
+    //  update current user (Reviewer)
+     $http.put(`/api/users`, self.user)
+     .then(function(response){
+       //update timecard owner
+       $http.put(`/api/users`, owner)
+       .then(function(response){
+         //person is not the last approver, must put into next queue
+         if (approverLength != (x +1)) {
+           nextapprover = self.findUserById(timecard.approvalflow[x+1].id)
+           nextapprover.reviews.push(timecard)
+           //update next approver
+           $http.put(`/api/users`, nextapprover)
+           .then(function(response){
+           })
+         }
+       })
+     })
+     .catch(function(err) {
+       console.log(err)
+     });
+   }
+   this.reviewsRejectTimecard = function(index) {
+     var now = new Date()
+     var timecard = self.allReviews[index]
+     //update timecard history
+     timecard.history.push({first: self.user.firstname, last: self.user.lastname, action: "rejected", time: now})
+     //update timecard status
+     timecard.status = 'rejected'
+     timecard.approvalflow = []; //removes approval flow
+     var owner = self.findUserById(timecard.ownerid) //find user
+     //add the rejection comment
+     timecard.comments.push({first: self.user.firstname, last: self.user.lastname, action: "rejected", time: now, text: self.rejectionComments})
+     //this part find this timecard in the owners timecards and updates it
+     for (var y = 0; y< owner.timecards.length; y++) {
+       if (owner.timecards[y]._id == timecard._id) {
+         owner.timecards[y] = timecard
+       }
+     }
+     //remove this timecard from users reviews
+     self.user.reviews.splice(index,1)
+     //update
+     $http.put(`/api/users`, self.user)
+     .then(function(response){
+       $http.put(`/api/users`, owner)
+       .then(function(response){
+       })
+    })
+
+   }
+
    this.checkUser = function() {
      $http.get('/api/helpers/get-user')
      .then(function(response) {
@@ -362,6 +445,8 @@
          self.user = response.data.user
          self.countTimecardStatuses(self.user.timecards)
          self.firstLoadDisplayTimecard("2017-01-22T08:00:00.000Z", self.user.timecards)
+         self.allReviews = self.user.reviews;
+         self.amountOfReviews = self.user.reviews.length
        } else {
        }
      })
@@ -389,6 +474,8 @@
      console.log(temp);
    }
 
+   this.rejectionComments = ''
+
 
    this.submitTimecardForApproval = function() {
      var now = new Date()
@@ -399,12 +486,12 @@
      approver.reviews.push(self.activeTimecard) //puts it in the queue
      self.countTimecardStatuses(self.user.timecards)
     //  console.log(JSON.stringify(self.activeTimecard));
-    //  $http.put(`/api/users`, self.user)
-    //  .then(function(response){
-    //    $http.put(`/api/users`, approver)
-    //    .then(function(response){
-    //      }
-    //    }
+     $http.put(`/api/users`, self.user)
+     .then(function(response){
+       $http.put(`/api/users`, approver)
+       .then(function(response){
+       })
+    })
    }
    this.rejectTimecardEmployee = function() {
      var now = new Date()
@@ -412,13 +499,18 @@
      self.activeTimecard.history.push({first: self.user.firstname, last: self.user.lastname, action: "rejected", time: now})
      var approver = self.removeFromApproversQueue() //that updated the queue
      self.countTimecardStatuses(self.user.timecards)
-     console.log(approver);
      self.activeTimecard.approvalflow = []; //removes approval flow
+     $http.put(`/api/users`, self.user)
+     .then(function(response){
+       $http.put(`/api/users`, approver)
+       .then(function(response){
+       })
+    })
    }
 
    this.removeFromApproversQueue = function() {
      var x = 0
-     while (self.activeTimecard.approvalflow[x].approved == true) {
+     while (self.activeTimecard.approvalflow[x].approved == true && x < self.activeTimecard.approvalflow.length) {
        x++
      }
      var approver = self.findUserById(self.activeTimecard.approvalflow[x].id)
@@ -775,9 +867,12 @@
       })
     }
 
+    if ($state.current.name == "tas.approved") {
+    }
 
 
-    if ($state.current.name == "tas-admin.users" || $state.current.name == "tas-admin.users.setapprovals" || $state.current.name == "tas-admin.users.user" || $state.current.name == "tas.mytimecards") {
+
+    if ($state.current.name == "tas-admin.users" || $state.current.name == "tas-admin.users.setapprovals" || $state.current.name == "tas-admin.users.user" || $state.current.name == "tas.mytimecards" || $state.current.name == "tas.reviews" || $state.current.name == "tas.approved") {
       $http.get('/api/users/')
       .then(function(response) {
         self.allUsers = response.data;
@@ -792,6 +887,17 @@
             self.invitesentUsers++;
           } if (self.allUsers[x].status == 'active') {
             self.activeUsers++;
+          }
+        }
+        self.allApproved = []
+        for (var x = 0; x<self.user.approved.length; x++) {
+
+          var owner = self.findUserById(self.user.approved[x].ownerid)
+          timecard_id = self.user.approved[x].timecardid
+          for (var y = 0; y < owner.timecards.length; y++) {
+            if (owner.timecards[y]._id == timecard_id) {
+              self.allApproved.push(owner.timecards[y])
+            }
           }
         }
 

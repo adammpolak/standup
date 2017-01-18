@@ -15,7 +15,7 @@
       <ul class="nav navbar-nav navbar-left">
         <li><a ui-sref-active='current' ui-sref="tas.mytimecards">My Timecards</a></li>
         <li><a ui-sref-active='current' ui-sref="tas.pto">PTO</a></li>
-        <li><a ui-sref-active='current' ui-sref="tas.reviews" ng-show="project.user.tcReviewerOf.length>0 || project.user.ptoReviewerOf.length>0">Reviews <span class="badge" ng-class="{'badge-error': project.user.reviews.length > 0}">{{project.user.reviews.length}}</span></a></li>
+        <li><a ui-sref-active='current' ui-sref="tas.reviews" ng-show="project.user.tcReviewerOf.length>0 || project.user.ptoReviewerOf.length>0">Reviews<span class="badge" ng-class="{'badge-error': project.user.reviews.length > 0}">{{project.amountOfReviews}}</span></a></li>
         <li><a ui-sref-active='current' ui-sref="tas.approved" ng-show="project.user.approved.length>0">Approved</a></li>
         <!-- <li><a ui-sref="signin" ng-if="!project.isAdam">Log Out</a></li> -->
         <!-- <li><a ui-sref="landing" ng-if='project.isUser' ng-click=project.logout()>Log Out</a></li> -->

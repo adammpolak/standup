@@ -291,7 +291,7 @@
       <div class="day" ng-repeat="object in project.availableDays" >
         <div class="day-name-area col-xs-1">
           <span class="day-name">
-            {{object.day | number: 0}}
+            {{object.day | limitTo: 3}}
           </span>
           <span class="day-date">
             1/16/17
@@ -338,7 +338,7 @@
           </div>
           <div class="row-display-times-call">
             <div class="day-project-list">
-              <span ng-repeat='item in project.activeTimecard[object.day].projects' class="project-item-display">{{item}} | <span class="project-amount">{{100/project.activeTimecard[object.day].projects.length | limitTo: 2}}</span></span>
+              <span ng-repeat='item in project.activeTimecard[object.day].projects' class="project-item-display">{{item}} | <span class="project-amount">{{100/project.activeTimecard[object.day].projects.length | number: 0}}</span></span>
             </div>
             <div class="time-display-holder">
               {{project.activeTimecard[object.day].state}}
@@ -368,7 +368,7 @@
               <span ng-class="{'glyphicon-circle-arrow-down': !$last, 'glyphicon-ok-circle': $last}"class="glyphicon"></span> <span>{{level.first}} {{level.last}}</span>
           </div>
         </div>
-        <div class="if-in-approvals" ng-show="project.activeTimecard.status == 'approvals'">
+        <div class="if-in-approvals" ng-show="project.activeTimecard.status == 'approvals' ||project.activeTimecard.status == 'approved'">
           <div class="approver-level" ng-repeat="level in project.activeTimecard.approvalflow">
             <div class="for-coloration" ng-class="{'level-not-approved': level.approved == false, 'level-approved': level.approved == true}">
               <span ng-class="{'glyphicon-circle-arrow-down': !$last, 'glyphicon-ok-circle': $last}"class="glyphicon"></span> <span>{{level.first}} {{level.last}}</span>
@@ -378,14 +378,14 @@
       </div>
       <div class="history-section panel panel-primary">
         <div class="panel-heading"><h6 class="panel-title">History</h6></div>
-        <div class="history-level" ng-repeat="event in project.activeTimecard.history">
-          <span class="history-section-name">{{event.first}} {{event.last}}</span> <span class="label" ng-class="{'label-success': event.action =='approved', 'label-danger': event.action =='rejected', 'label-warning': event.action =='submitted'}">{{event.action}}</span> <span>{{event.time | date: medium}}</span>
+        <div class="history-level" ng-repeat="event in project.activeTimecard.history | orderBy: '-time'">
+          <span class="history-section-name">{{event.first}} {{event.last}}</span> <span class="label" ng-class="{'label-success': event.action =='approved', 'label-danger': event.action =='rejected', 'label-warning': event.action =='submitted'}">{{event.action}}</span> <span>{{event.time | date: short}}</span>
         </div>
       </div>
       <div class="comments-section panel panel-primary">
         <div class="panel-heading"><h6 class="panel-title">Comments</h6></div>
-        <div class="">
-          This is the body
+        <div class="comment-level" ng-repeat="comment in project.activeTimecard.comments | orderBy: '-time'">
+          <span class="history-section-name">{{comment.first}} {{comment.last}}</span> <span class="label" ng-class="{'label-success': comment.action =='approved', 'label-danger': comment.action =='rejected', 'label-warning': comment.action =='submitted'}">{{comment.action}}</span> <span>{{comment.time | date: short}}</span> <span class="comment-text">{{comment.text}}</span>
         </div>
 
       </div>
