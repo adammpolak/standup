@@ -22,10 +22,14 @@
 }
 
 .display-days-section {
-  padding: 15px;
   font-family: "HelveticaNeue";
   font-size: 14px;
   color: #898989;
+}
+
+.display-days-section .day:hover {
+  background-color: #ffa;
+
 }
 
 .display-days-section-read-only {
@@ -73,6 +77,36 @@
   justify-content: space-around;
 }
 
+.day-name-area {
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.time-hours-worked {
+  font-family: "HelveticaNeue-UltraLight";
+  font-size: 18px;
+  color: #898989;
+}
+
+.hours-units {
+  font-size: 10px;
+}
+
+.day-date {
+  font-family: "HelveticaNeue-Light";
+  font-size: 10px;
+  color: #898989;
+}
+
+.day-name {
+  font-family: "HelveticaNeue-Thin";
+  font-size: 24px;
+  color: #428BCA;
+}
+
 .first-four {
   float: right;
   display: flex;
@@ -81,8 +115,17 @@
   padding: 3px;
 }
 
+.row-display-times-call {
+  float: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px;
+  width: 100%
+}
+
 .highlighted {
-  border: 2px solid blue;
+  background-color: #ffa;
 }
 
 .days-header {
@@ -143,6 +186,52 @@
   align-items: center;
   flex-direction: column;
 }
+
+.additional-info {
+  font-family: "HelveticaNeue-UltraLight";
+  font-size: 14px;
+  color: #898989;
+}
+
+.time-display-holder {
+  float: left;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+
+}
+
+.project-amount {
+    font-family: "HelveticaNeue-Medium";
+}
+
+.project-item-display {
+  color: white;
+  font-size: 10px;
+  background: #A3CDFF;
+  border-radius: 37px;
+  margin: 1px 5px;
+  padding: 3px;
+  font-family: "HelveticaNeue-UltraLight";
+  letter-spacing: 2px;
+}
+
+.day-project-list {
+  width: 600px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.call-and-wrap {
+  font-family: "HelveticaNeue-Medium";
+  font-size: 14px;
+  color: #898989;
+}
+
+
+
 
 .timecard-input-field-title {
   font-family: "HelveticaNeue-Thin";

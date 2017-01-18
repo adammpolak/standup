@@ -9,7 +9,7 @@
 
     this.timecardFilter = "all"
     this.timecardSelected = "2017-01-22T08:00:00.000Z"
-    this.availableDays = [{day:"Monday"}, {day:"Tuesday"}, {day:"Wednesday"}, {day:"Thursday"}, {day:"Friday"}, {day: "Saturday"}, {day: "Sunday"}]
+    this.availableDays = [{day:"monday"}, {day:"tuesday"}, {day:"wednesday"}, {day:"thursday"}, {day:"friday"}, {day: "saturday"}, {day: "sunday"}]
 
    this.setTimecardFilter = function(filter) {
      console.log(filter);
@@ -21,18 +21,43 @@
    }
 
    this.setTimecard = function(timecard) {
-     console.log(timecard);
      self.timecardSelected = timecard.weekending
      self.activeTimecard = timecard
      self.selectedDaysArray = [];
-     this.highlightmonday = false
-      this.highlighttuesday = false
-      this.highlightwednesday = false
-      this.highlightthursday = false
-      this.highlightfriday = false
-      this.highlightsaturday = false
-      this.highlightsunday = false
+     self.highlightmonday = false
+      self.highlighttuesday = false
+      self.highlightwednesday = false
+      self.highlightthursday = false
+      self.highlightfriday = false
+      self.highlightsaturday = false
+      self.highlightsunday = false
+      self.highlightObject = {
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+        saturday: false,
+        sunday: false
+      }
      self.saveInitialActiveTimecardVersion()
+   }
+   this.isThisDayHighLighted = function(day) {
+     if (day == "monday") {
+       self.highlightmonday = !self.highlightmonday
+     }if (day == "tuesday") {
+       self.highlighttuesday = !self.highlighttuesday
+     }if (day == "wednesday") {
+       self.highlightwednesday = !self.highlightwednesday
+     }if (day == "thursday") {
+       self.highlightthursday = !self.highlightthursday
+     }if (day == "friday") {
+       self.highlightfriday = !self.highlightfriday
+     }if (day == "saturday") {
+       self.highlightsaturday = !self.highlightsaturday
+     }if (day == "sunday") {
+       self.highlightsunday = !self.highlightsunday
+     }
    }
    self.activeTimecardsNumber = 0;
    self.rejectedTimecardsNumber = 0;
@@ -174,6 +199,15 @@
        perdiem: false,
        projects: []
      }
+     self.highlightObject = {
+       monday: false,
+       tuesday: false,
+       wednesday: false,
+       thursday: false,
+       friday: false,
+       saturday: false,
+       sunday: false
+     }
      self.highlightmonday = false
      self.highlighttuesday = false
      self.highlightwednesday = false
@@ -211,6 +245,40 @@
        self.saveInitialActiveTimecardVersion()
        self.revertActiveTimecard()
      })
+   }
+
+   this.highlightObject = {
+     monday: false,
+     tuesday: false,
+     wednesday: false,
+     thursday: false,
+     friday: false,
+     saturday: false,
+     sunday: false
+   }
+
+   this.highlightRouter = function(day) {
+     if (day == "monday") {
+       self.highlightmonday = !self.highlightmonday
+     }
+     if (day == "tuesday") {
+       self.highlighttuesday = !self.highlighttuesday
+     }
+     if (day == "wednesday") {
+       self.highlightwednesday = !self.highlightwednesday
+     }
+     if (day == "thursday") {
+       self.highlightthursday = !self.highlightthursday
+     }
+     if (day == "friday") {
+       self.highlightfriday = !self.highlightfriday
+     }
+     if (day == "saturday") {
+       self.highlightsaturday = !self.highlightsaturday
+     }
+     if (day == "sunday") {
+       self.highlightsunday = !self.highlightsunday
+     }
    }
 
    this.highlightmonday = false
@@ -313,8 +381,14 @@
          }
        }
      }
-     console.log(JSON.stringify(self.currentUserApprovalFlow));
    }
+   this.getMondayDate = function () {
+     var temp = new Date()
+     self.activeTimecard.weekending
+     temp.setDate(self.activeTimecard.weekending.getDate()-6);
+     console.log(temp);
+   }
+
 
    this.submitTimecardForApproval = function() {
      var now = new Date()
@@ -332,6 +406,30 @@
     //      }
     //    }
    }
+   this.rejectTimecardEmployee = function() {
+     var now = new Date()
+     self.activeTimecard.status = 'rejected' // changes status
+     self.activeTimecard.history.push({first: self.user.firstname, last: self.user.lastname, action: "rejected", time: now})
+     var approver = self.removeFromApproversQueue() //that updated the queue
+     self.countTimecardStatuses(self.user.timecards)
+     console.log(approver);
+     self.activeTimecard.approvalflow = []; //removes approval flow
+   }
+
+   this.removeFromApproversQueue = function() {
+     var x = 0
+     while (self.activeTimecard.approvalflow[x].approved == true) {
+       x++
+     }
+     var approver = self.findUserById(self.activeTimecard.approvalflow[x].id)
+     for (var x = 0; x < approver.reviews.length; x++) {
+       if (approver.reviews[x]._id == self.activeTimecard._id) {
+         approver.reviews.splice(x,1)
+       }
+     }
+     return approver
+   }
+
 
    this.makeTimecardApprovalFlow = function() {
 

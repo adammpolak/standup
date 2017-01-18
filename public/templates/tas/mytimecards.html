@@ -214,204 +214,149 @@
 
     <div class="display-days-section" ng-if="project.activeTimecard.status == 'active' || project.activeTimecard.status == 'rejected'">
 
-      <div class="day" ng-click="project.highlightmonday = !project.highlightmonday; project.adjustSelectedDays('monday')"ng-class="{'highlighted': project.highlightmonday == true}">
-        <span class="underline">Monday</span>
-        Call: {{project.activeTimecard.monday.call}}
-        Wrap: {{project.activeTimecard.monday.wrap}}
-        Meal 1 Out: {{project.activeTimecard.monday.meal1out}}
-        Meal 1 In: {{project.activeTimecard.monday.meal1in}}
-        Meal 2 Out: {{project.activeTimecard.monday.meal2out}}
-        Meal 2 In: {{project.activeTimecard.monday.meal2in}}
-        Day Type: {{project.activeTimecard.monday.daytype}}
-        Location: {{project.activeTimecard.monday.location}}
-        State: {{project.activeTimecard.monday.state}}
-        Per Diem: {{project.activeTimecard.monday.perdiem}}
-        Projects: <span ng-repeat='item in project.activeTimecard.monday.projects'>{{item}},</span>
+
+      <div class="day" ng-repeat="object in project.availableDays" ng-click="project.isThisDayHighLighted(object.day); project.highlightObject[object.day] = !project.highlightObject[object.day]; project.adjustSelectedDays(object.day)"ng-class="{'highlighted': project.highlightObject[object.day] == true}">
+        <div class="day-name-area col-xs-1">
+          <span class="day-name">
+            {{object.day | limitTo: 3}}
+          </span>
+          <span class="day-date">
+            1/16/17
+          </span>
+          <span class="time-hours-worked">
+            3<span class="hours-units"> hrs</span>
+          </span>
+        </div>
+
+        <div class="day-data-area col-xs-11">
+          <div class="row-display-times-call">
+            <div class="time-display-holder call-and-wrap">
+              {{project.activeTimecard[object.day].call}}
+            </div>
+            <div class="time-display-holder call-and-wrap">
+              {{project.activeTimecard[object.day].wrap}}
+            </div>
+            <div class="time-display-holder">
+              {{project.activeTimecard[object.day].meal1out}}
+            </div>
+            <div class="time-display-holder">
+              {{project.activeTimecard[object.day].meal1in}}
+            </div>
+          </div>
+          <div class="clearfix">
+
+          </div>
+          <div class="row-display-times-call">
+            <div class="time-display-holder additional-info">
+              {{project.activeTimecard[object.day].daytype}}
+            </div>
+            <div class="time-display-holder additional-info">
+              {{project.activeTimecard[object.day].location}}
+            </div>
+            <div class="time-display-holder">
+              {{project.activeTimecard[object.day].meal2out}}
+            </div>
+            <div class="time-display-holder">
+              {{project.activeTimecard[object.day].meal2in}}
+            </div>
+          </div>
+          <div class="clearfix">
+
+          </div>
+          <div class="row-display-times-call">
+            <div class="day-project-list">
+              <span ng-repeat='item in project.activeTimecard[object.day].projects' class="project-item-display">{{item}} | <span class="project-amount">33</span></span>
+            </div>
+            <div class="time-display-holder">
+              {{project.activeTimecard[object.day].state}}
+
+            </div>
+            <div class="time-display-holder">
+              <span ng-show="project.activeTimecard[object.day].perdiem">{{project.activeTimecard[object.day].perdiem}}</span>
+
+            </div>
+
+
+          </div>
+          <div class="clearfix">
+          </div>
+        </div>
+        <div class="clearfix">
+
+        </div>
       </div>
-      <div class="day" ng-click="project.highlighttuesday = !project.highlighttuesday; project.adjustSelectedDays('tuesday')"ng-class="{'highlighted': project.highlighttuesday == true}">
-        <span class="underline">Tuesday</span>
-        Call: {{project.activeTimecard.tuesday.call}}
-        Wrap: {{project.activeTimecard.tuesday.wrap}}
-        Meal 1 Out: {{project.activeTimecard.tuesday.meal1out}}
-        Meal 1 In: {{project.activeTimecard.tuesday.meal1in}}
-        Meal 2 Out: {{project.activeTimecard.tuesday.meal2out}}
-        Meal 2 In: {{project.activeTimecard.tuesday.meal2in}}
-        Day Type: {{project.activeTimecard.tuesday.daytype}}
-        Location: {{project.activeTimecard.tuesday.location}}
-        State: {{project.activeTimecard.tuesday.state}}
-        Per Diem: {{project.activeTimecard.tuesday.perdiem}}
-        Projects: <span ng-repeat='item in project.activeTimecard.tuesday.projects'>{{item}},</span>
       </div>
-      <div class="day" ng-click="project.highlightwednesday = !project.highlightwednesday; project.adjustSelectedDays('wednesday')"ng-class="{'highlighted': project.highlightwednesday == true}">
-        <span class="underline">Wednesday</span>
-        Call: {{project.activeTimecard.wednesday.call}}
-        Wrap: {{project.activeTimecard.wednesday.wrap}}
-        Meal 1 Out: {{project.activeTimecard.wednesday.meal1out}}
-        Meal 1 In: {{project.activeTimecard.wednesday.meal1in}}
-        Meal 2 Out: {{project.activeTimecard.wednesday.meal2out}}
-        Meal 2 In: {{project.activeTimecard.wednesday.meal2in}}
-        Day Type: {{project.activeTimecard.wednesday.daytype}}
-        Location: {{project.activeTimecard.wednesday.location}}
-        State: {{project.activeTimecard.wednesday.state}}
-        Per Diem: {{project.activeTimecard.wednesday.perdiem}}
-        Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
-      </div>
-      <div class="day" ng-click="project.highlightthursday = !project.highlightthursday; project.adjustSelectedDays('thursday')"ng-class="{'highlighted': project.highlightthursday == true}">
-        <span class="underline">Thursday</span>
-        Call: {{project.activeTimecard.thursday.call}}
-        Wrap: {{project.activeTimecard.thursday.wrap}}
-        Meal 1 Out: {{project.activeTimecard.thursday.meal1out}}
-        Meal 1 In: {{project.activeTimecard.thursday.meal1in}}
-        Meal 2 Out: {{project.activeTimecard.thursday.meal2out}}
-        Meal 2 In: {{project.activeTimecard.thursday.meal2in}}
-        Day Type: {{project.activeTimecard.thursday.daytype}}
-        Location: {{project.activeTimecard.thursday.location}}
-        State: {{project.activeTimecard.thursday.state}}
-        Per Diem: {{project.activeTimecard.thursday.perdiem}}
-        Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
-      </div>
-      <div class="day" ng-click="project.highlightfriday = !project.highlightfriday; project.adjustSelectedDays('friday')"ng-class="{'highlighted': project.highlightfriday == true}">
-        <span class="underline">Friday</span>
-        Call: {{project.activeTimecard.friday.call}}
-        Wrap: {{project.activeTimecard.friday.wrap}}
-        Meal 1 Out: {{project.activeTimecard.friday.meal1out}}
-        Meal 1 In: {{project.activeTimecard.friday.meal1in}}
-        Meal 2 Out: {{project.activeTimecard.friday.meal2out}}
-        Meal 2 In: {{project.activeTimecard.friday.meal2in}}
-        Day Type: {{project.activeTimecard.friday.daytype}}
-        Location: {{project.activeTimecard.friday.location}}
-        State: {{project.activeTimecard.friday.state}}
-        Per Diem: {{project.activeTimecard.friday.perdiem}}
-        Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
-      </div>
-      <div class="day" ng-click="project.highlightsaturday = !project.highlightsaturday; project.adjustSelectedDays('saturday')"ng-class="{'highlighted': project.highlightsaturday == true}">
-        <span class="underline">Saturday</span>
-        Call: {{project.activeTimecard.saturday.call}}
-        Wrap: {{project.activeTimecard.saturday.wrap}}
-        Meal 1 Out: {{project.activeTimecard.saturday.meal1out}}
-        Meal 1 In: {{project.activeTimecard.saturday.meal1in}}
-        Meal 2 Out: {{project.activeTimecard.saturday.meal2out}}
-        Meal 2 In: {{project.activeTimecard.saturday.meal2in}}
-        Day Type: {{project.activeTimecard.saturday.daytype}}
-        Location: {{project.activeTimecard.saturday.location}}
-        State: {{project.activeTimecard.saturday.state}}
-        Per Diem: {{project.activeTimecard.saturday.perdiem}}
-        Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
-      </div>
-      <div class="day" ng-click="project.highlightsunday = !project.highlightsunday; project.adjustSelectedDays('sunday')"ng-class="{'highlighted': project.highlightsunday == true}">
-        <span class="underline">Sunday</span>
-        Call: {{project.activeTimecard.sunday.call}}
-        Wrap: {{project.activeTimecard.sunday.wrap}}
-        Meal 1 Out: {{project.activeTimecard.sunday.meal1out}}
-        Meal 1 In: {{project.activeTimecard.sunday.meal1in}}
-        Meal 2 Out: {{project.activeTimecard.sunday.meal2out}}
-        Meal 2 In: {{project.activeTimecard.sunday.meal2in}}
-        Day Type: {{project.activeTimecard.sunday.daytype}}
-        Location: {{project.activeTimecard.sunday.location}}
-        State: {{project.activeTimecard.sunday.state}}
-        Per Diem: {{project.activeTimecard.sunday.perdiem}}
-        Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
-      </div>
-    </div>
     <div class="display-days-section-read-only" ng-if="project.activeTimecard.status == 'approvals' || project.activeTimecard.status == 'approved'">
 
-      <div class="day">
-        <span class="underline">Monday</span>
-        Call: {{project.activeTimecard.monday.call}}
-        Wrap: {{project.activeTimecard.monday.wrap}}
-        Meal 1 Out: {{project.activeTimecard.monday.meal1out}}
-        Meal 1 In: {{project.activeTimecard.monday.meal1in}}
-        Meal 2 Out: {{project.activeTimecard.monday.meal2out}}
-        Meal 2 In: {{project.activeTimecard.monday.meal2in}}
-        Day Type: {{project.activeTimecard.monday.daytype}}
-        Location: {{project.activeTimecard.monday.location}}
-        State: {{project.activeTimecard.monday.state}}
-        Per Diem: {{project.activeTimecard.monday.perdiem}}
-        Projects: <span ng-repeat='item in project.activeTimecard.monday.projects'>{{item}},</span>
-      </div>
-      <div class="day">
-        <span class="underline">Tuesday</span>
-        Call: {{project.activeTimecard.tuesday.call}}
-        Wrap: {{project.activeTimecard.tuesday.wrap}}
-        Meal 1 Out: {{project.activeTimecard.tuesday.meal1out}}
-        Meal 1 In: {{project.activeTimecard.tuesday.meal1in}}
-        Meal 2 Out: {{project.activeTimecard.tuesday.meal2out}}
-        Meal 2 In: {{project.activeTimecard.tuesday.meal2in}}
-        Day Type: {{project.activeTimecard.tuesday.daytype}}
-        Location: {{project.activeTimecard.tuesday.location}}
-        State: {{project.activeTimecard.tuesday.state}}
-        Per Diem: {{project.activeTimecard.tuesday.perdiem}}
-        Projects: <span ng-repeat='item in project.activeTimecard.tuesday.projects'>{{item}},</span>
-      </div>
-      <div class="day" >
-        <span class="underline">Wednesday</span>
-        Call: {{project.activeTimecard.wednesday.call}}
-        Wrap: {{project.activeTimecard.wednesday.wrap}}
-        Meal 1 Out: {{project.activeTimecard.wednesday.meal1out}}
-        Meal 1 In: {{project.activeTimecard.wednesday.meal1in}}
-        Meal 2 Out: {{project.activeTimecard.wednesday.meal2out}}
-        Meal 2 In: {{project.activeTimecard.wednesday.meal2in}}
-        Day Type: {{project.activeTimecard.wednesday.daytype}}
-        Location: {{project.activeTimecard.wednesday.location}}
-        State: {{project.activeTimecard.wednesday.state}}
-        Per Diem: {{project.activeTimecard.wednesday.perdiem}}
-        Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
-      </div>
-      <div class="day">
-        <span class="underline">Thursday</span>
-        Call: {{project.activeTimecard.thursday.call}}
-        Wrap: {{project.activeTimecard.thursday.wrap}}
-        Meal 1 Out: {{project.activeTimecard.thursday.meal1out}}
-        Meal 1 In: {{project.activeTimecard.thursday.meal1in}}
-        Meal 2 Out: {{project.activeTimecard.thursday.meal2out}}
-        Meal 2 In: {{project.activeTimecard.thursday.meal2in}}
-        Day Type: {{project.activeTimecard.thursday.daytype}}
-        Location: {{project.activeTimecard.thursday.location}}
-        State: {{project.activeTimecard.thursday.state}}
-        Per Diem: {{project.activeTimecard.thursday.perdiem}}
-        Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
-      </div>
-      <div class="day">
-        <span class="underline">Friday</span>
-        Call: {{project.activeTimecard.friday.call}}
-        Wrap: {{project.activeTimecard.friday.wrap}}
-        Meal 1 Out: {{project.activeTimecard.friday.meal1out}}
-        Meal 1 In: {{project.activeTimecard.friday.meal1in}}
-        Meal 2 Out: {{project.activeTimecard.friday.meal2out}}
-        Meal 2 In: {{project.activeTimecard.friday.meal2in}}
-        Day Type: {{project.activeTimecard.friday.daytype}}
-        Location: {{project.activeTimecard.friday.location}}
-        State: {{project.activeTimecard.friday.state}}
-        Per Diem: {{project.activeTimecard.friday.perdiem}}
-        Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
-      </div>
-      <div class="day">
-        <span class="underline">Saturday</span>
-        Call: {{project.activeTimecard.saturday.call}}
-        Wrap: {{project.activeTimecard.saturday.wrap}}
-        Meal 1 Out: {{project.activeTimecard.saturday.meal1out}}
-        Meal 1 In: {{project.activeTimecard.saturday.meal1in}}
-        Meal 2 Out: {{project.activeTimecard.saturday.meal2out}}
-        Meal 2 In: {{project.activeTimecard.saturday.meal2in}}
-        Day Type: {{project.activeTimecard.saturday.daytype}}
-        Location: {{project.activeTimecard.saturday.location}}
-        State: {{project.activeTimecard.saturday.state}}
-        Per Diem: {{project.activeTimecard.saturday.perdiem}}
-        Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
-      </div>
-      <div class="day">
-        <span class="underline">Sunday</span>
-        Call: {{project.activeTimecard.sunday.call}}
-        Wrap: {{project.activeTimecard.sunday.wrap}}
-        Meal 1 Out: {{project.activeTimecard.sunday.meal1out}}
-        Meal 1 In: {{project.activeTimecard.sunday.meal1in}}
-        Meal 2 Out: {{project.activeTimecard.sunday.meal2out}}
-        Meal 2 In: {{project.activeTimecard.sunday.meal2in}}
-        Day Type: {{project.activeTimecard.sunday.daytype}}
-        Location: {{project.activeTimecard.sunday.location}}
-        State: {{project.activeTimecard.sunday.state}}
-        Per Diem: {{project.activeTimecard.sunday.perdiem}}
-        Projects: <span ng-repeat='item in project.activeTimecard.projects'>{{item}},</span>
+      <div class="day" ng-repeat="object in project.availableDays" >
+        <div class="day-name-area col-xs-1">
+          <span class="day-name">
+            {{object.day | limitTo: 3}}
+          </span>
+          <span class="day-date">
+            1/16/17
+          </span>
+          <span class="time-hours-worked">
+            3<span class="hours-units"> hrs</span>
+          </span>
+        </div>
+
+        <div class="day-data-area col-xs-11">
+          <div class="row-display-times-call">
+            <div class="time-display-holder call-and-wrap">
+              {{project.activeTimecard[object.day].call}}
+            </div>
+            <div class="time-display-holder call-and-wrap">
+              {{project.activeTimecard[object.day].wrap}}
+            </div>
+            <div class="time-display-holder">
+              {{project.activeTimecard[object.day].meal1out}}
+            </div>
+            <div class="time-display-holder">
+              {{project.activeTimecard[object.day].meal1in}}
+            </div>
+          </div>
+          <div class="clearfix">
+
+          </div>
+          <div class="row-display-times-call">
+            <div class="time-display-holder additional-info">
+              {{project.activeTimecard[object.day].daytype}}
+            </div>
+            <div class="time-display-holder additional-info">
+              {{project.activeTimecard[object.day].location}}
+            </div>
+            <div class="time-display-holder">
+              {{project.activeTimecard[object.day].meal2out}}
+            </div>
+            <div class="time-display-holder">
+              {{project.activeTimecard[object.day].meal2in}}
+            </div>
+          </div>
+          <div class="clearfix">
+
+          </div>
+          <div class="row-display-times-call">
+            <div class="day-project-list">
+              <span ng-repeat='item in project.activeTimecard[object.day].projects' class="project-item-display">{{item}} | <span class="project-amount">33</span></span>
+            </div>
+            <div class="time-display-holder">
+              {{project.activeTimecard[object.day].state}}
+
+            </div>
+            <div class="time-display-holder">
+              {{project.activeTimecard[object.day].perdiem}}
+
+            </div>
+
+
+          </div>
+          <div class="clearfix">
+          </div>
+        </div>
+        <div class="clearfix">
+
+        </div>
       </div>
     </div>
 
@@ -449,7 +394,7 @@
 
     <div class="submit-for-approval-area">
       <button type="button" class="btn btn-primary" ng-click="project.submitTimecardForApproval()" ng-show="project.activeTimecard.status == 'active' || project.activeTimecard.status == 'rejected'">submit for approval</button>
-      <button type="button" class="btn btn-danger" ng-click="project.rejectTimecard()" ng-show="project.activeTimecard.status == 'approvals'">reject timecard</button>
+      <button type="button" class="btn btn-danger" ng-click="project.rejectTimecardEmployee()" ng-show="project.activeTimecard.status == 'approvals'">reject timecard</button>
 
     </div>
 
