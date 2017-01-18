@@ -265,7 +265,7 @@
           </div>
           <div class="row-display-times-call">
             <div class="day-project-list">
-              <span ng-repeat='item in project.activeTimecard[object.day].projects' class="project-item-display">{{item}} | <span class="project-amount">33</span></span>
+              <span ng-repeat='item in project.activeTimecard[object.day].projects' class="project-item-display">{{item}} | <span class="project-amount">{{100/project.activeTimecard[object.day].projects.length | number: 0}}</span></span>
             </div>
             <div class="time-display-holder">
               {{project.activeTimecard[object.day].state}}
@@ -291,7 +291,7 @@
       <div class="day" ng-repeat="object in project.availableDays" >
         <div class="day-name-area col-xs-1">
           <span class="day-name">
-            {{object.day | limitTo: 3}}
+            {{object.day | number: 0}}
           </span>
           <span class="day-date">
             1/16/17
@@ -338,14 +338,14 @@
           </div>
           <div class="row-display-times-call">
             <div class="day-project-list">
-              <span ng-repeat='item in project.activeTimecard[object.day].projects' class="project-item-display">{{item}} | <span class="project-amount">33</span></span>
+              <span ng-repeat='item in project.activeTimecard[object.day].projects' class="project-item-display">{{item}} | <span class="project-amount">{{100/project.activeTimecard[object.day].projects.length | limitTo: 2}}</span></span>
             </div>
             <div class="time-display-holder">
               {{project.activeTimecard[object.day].state}}
 
             </div>
             <div class="time-display-holder">
-              {{project.activeTimecard[object.day].perdiem}}
+              <span ng-show="project.activeTimecard[object.day].perdiem">{{project.activeTimecard[object.day].perdiem}}</span>
 
             </div>
 
