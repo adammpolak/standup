@@ -7,7 +7,7 @@
       <br>
       <div class="display-days-section-read-only">
 
-        <div class="day" ng-repeat="day in project.availableDays track by $" >
+        <div class="day" ng-repeat="day in project.availableDays" >
           <div class="day-name-area col-xs-1">
             <span class="day-name">
               {{day | limitTo: 3}}
@@ -23,7 +23,7 @@
           <div class="day-data-area col-xs-11">
             <div class="row-display-times-call">
               <div class="time-display-holder call-and-wrap">
-                {{project.allReviews[$parent.$parent.$index][day].call}}
+                {{project.allReviews[$parent.$index][day].call}}
               </div>
               <div class="time-display-holder call-and-wrap">
                 {{project.allReviews[$parent.$index][day].wrap}}
