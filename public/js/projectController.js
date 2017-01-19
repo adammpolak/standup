@@ -243,8 +243,25 @@
          perdiem: false,
          projects: []
        }
+       self.highlightObject = {
+         monday: false,
+         tuesday: false,
+         wednesday: false,
+         thursday: false,
+         friday: false,
+         saturday: false,
+         sunday: false
+       }
+       self.highlightmonday = false
+       self.highlighttuesday = false
+       self.highlightwednesday = false
+       self.highlightthursday = false
+       self.highlightfriday = false
+       self.highlightsaturday = false
+       self.highlightsunday = false
+
+       self.selectedDaysArray = []
        self.saveInitialActiveTimecardVersion()
-       self.revertActiveTimecard()
      })
    }
 
@@ -480,8 +497,8 @@
    this.submitTimecardForApproval = function() {
      var now = new Date()
      self.activeTimecard.approvalflow = self.currentUserApprovalFlow //this attaches approval flow to tc
-     console.log(self.activeTimecard.status);
      self.activeTimecard.status = 'approvals' //changes tc status
+     console.log(self.activeTimecard.status);
      self.activeTimecard.history.push({first: self.user.firstname, last: self.user.lastname, action: "submitted", time: now}) //updates history
      console.log(self.activeTimecard.history);
      var approver = self.findUserById(self.currentUserApprovalFlow[0].id)
@@ -883,7 +900,9 @@
         self.importedUsers = 0;
         self.invitesentUsers = 0;
         self.activeUsers = 0;
-        self.currentApprovalFlow(self.user.tcApprovalFlow)
+        if (self.user) {
+          self.currentApprovalFlow(self.user.tcApprovalFlow)
+        }
         for (var x=0; x<self.allUsers.length; x++) {
           if (self.allUsers[x].status == 'imported') {
             self.importedUsers++;
