@@ -608,6 +608,7 @@
 
     this.viewUser = function(user) {
       self.settingApprovals = true;
+      localStorage.removeItem('loadedUsers')
       sessionStorage.setItem('activeUser', JSON.stringify(user))
       $state.go('tas-admin.users.user', {url: '/tas-admin/users/user'})
 
@@ -615,6 +616,7 @@
     if ($state.current.name == "tas-admin.users.user") {
       self.activeUser = JSON.parse(sessionStorage.getItem('activeUser'))
       self.loadedUsers.push(self.activeUser)
+      console.log(self.activeUser.tcApprovalFlow);
       if (self.activeUser.tcApprovalFlow) {
         self.bulkApprovals = []
         for (var x = 1; x<6; x++) {
