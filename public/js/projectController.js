@@ -480,14 +480,16 @@
    this.submitTimecardForApproval = function() {
      var now = new Date()
      self.activeTimecard.approvalflow = self.currentUserApprovalFlow //this attaches approval flow to tc
+     console.log(self.activeTimecard.status);
      self.activeTimecard.status = 'approvals' //changes tc status
      self.activeTimecard.history.push({first: self.user.firstname, last: self.user.lastname, action: "submitted", time: now}) //updates history
+     console.log(self.activeTimecard.history);
      var approver = self.findUserById(self.currentUserApprovalFlow[0].id)
      approver.reviews.push(self.activeTimecard) //puts it in the queue
-     self.countTimecardStatuses(self.user.timecards)
     //  console.log(JSON.stringify(self.activeTimecard));
      $http.put(`/api/users`, self.user)
      .then(function(response){
+       self.countTimecardStatuses(self.user.timecards)
        $http.put(`/api/users`, approver)
        .then(function(response){
        })

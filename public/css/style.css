@@ -277,7 +277,11 @@
   color: #898989;
 }
 
-
+.timecard-list {
+  height: 200px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
 
 
 .timecard-input-field-title {
@@ -322,8 +326,7 @@
 }
 
 .list-status {
-  position: absolute;
-  left: 125px;
+  float: right;
   font-family: "HelveticaNeue-Thin";
 }
 
