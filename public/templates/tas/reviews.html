@@ -1,9 +1,9 @@
 <div class="container">
   <div class="reviews-timecard-list">
     <div class="col-sm-8 timecard-main" ng-repeat="review in project.allReviews track by $parent.$index">
-      <span class="timecard-leftnav-header-text">Week Ending {{project.allReviews[$parent.$index].weekending | date: medium}}
+      <span class="timecard-leftnav-header-text">Week Ending {{project.allReviews[$index].weekending | date: medium}}
          </span>
-         <span class="timecard-leftnav-header-text">{{project.allReviews[$parent.$index].ownerfirstname}} {{project.allReviews[$parent.$index].ownerlastname}}</span>
+         <span class="timecard-leftnav-header-text">{{project.allReviews[$index].ownerfirstname}} {{project.allReviews[$index].ownerlastname}}</span>
       <br>
       <div class="display-days-section-read-only">
 
