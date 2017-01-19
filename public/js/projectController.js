@@ -392,7 +392,7 @@
        x++
      }
 
-     console.log('this is approver length: 'approverLength)
+     console.log('this is approver length: '+approverLength)
      //check if need to change timecard status to approved
      if (approverLength = (x +1)) {
        console.log("approverlength" +approverLength)
