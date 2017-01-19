@@ -379,13 +379,23 @@
      var now = new Date()
      var timecard = self.allReviews[index]
      var approverLength = timecard.approvalflow.length;
+
+     console.log("this is timecard approval flow: "+ timecard.approvalflow);
      var x = 0
+
+     console.log("should be 0 (x) : "+x)
+     console.log('this is timecard.approvalflow[0] : '+ timecard.approvalflow[x])
      //check if user is last approver
      while (timecard.approvalflow[x]['approved'] == true) {
+       console.log("THIS IS LOGGING X's PROGRESSION : " +x);
+       console.log('this is logging the approval flow true/false' + timecard.approvalflow[x])
        x++
      }
+
+     console.log('this is approver length: 'approverLength)
      //check if need to change timecard status to approved
      if (approverLength = (x +1)) {
+       console.log("approverlength" +approverLength)
        timecard.status = 'approved'
      }
 
