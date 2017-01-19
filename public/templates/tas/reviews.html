@@ -1,6 +1,6 @@
 <div class="container">
   <div class="reviews-timecard-list">
-    <div class="col-sm-8 timecard-main" ng-repeat="review in project.allReviews track by $parent.$index">
+    <div class="col-sm-8 timecard-main" ng-repeat="review in project.allReviews track by $index">
       <span class="timecard-leftnav-header-text">Week Ending {{project.allReviews[$index].weekending | date: medium}}
          </span>
          <span class="timecard-leftnav-header-text">{{project.allReviews[$index].ownerfirstname}} {{project.allReviews[$index].ownerlastname}}</span>
@@ -82,13 +82,13 @@
       <div class="approval-history-comments-section">
         <div class="approval-flow-display panel panel-primary">
           <div class="panel-heading"><h6 class="panel-title">Approvals</h6></div>
-          <div class="if-active-or-rejected" ng-show="project.allReviews[$parent.$index].status == 'active' || project.allReviews[$parent.$index].status == 'rejected'">
+          <div class="if-active-or-rejected" ng-show="project.allReviews[$index].status == 'active' || project.allReviews[$index].status == 'rejected'">
             <div class="approver-level" ng-repeat="level in project.currentUserApprovalFlow">
               <span ng-class="{'glyphicon-circle-arrow-down': !$last, 'glyphicon-ok-circle': $last}"class="glyphicon"></span> <span>{{level.first}} {{level.last}}</span>
             </div>
           </div>
-          <div class="if-in-approvals" ng-show="project.allReviews[$parent.$index].status == 'approvals'">
-            <div class="approver-level" ng-repeat="level in project.allReviews[$parent.$index].approvalflow">
+          <div class="if-in-approvals" ng-show="project.allReviews[$index].status == 'approvals'">
+            <div class="approver-level" ng-repeat="level in project.allReviews[$index].approvalflow">
               <div class="for-coloration" ng-class="{'level-not-approved': level.approved == false, 'level-approved': level.approved == true}">
                 <span ng-class="{'glyphicon-circle-arrow-down': !$last, 'glyphicon-ok-circle': $last}"class="glyphicon"></span> <span>{{level.first}} {{level.last}}</span>
               </div>
@@ -97,13 +97,13 @@
         </div>
         <div class="history-section panel panel-primary">
           <div class="panel-heading"><h6 class="panel-title">History</h6></div>
-          <div class="history-level" ng-repeat="event in project.allReviews[$parent.$index].history | orderBy: ''">
+          <div class="history-level" ng-repeat="event in project.allReviews[$index].history | orderBy: ''">
             <span class="history-section-name">{{event.first}} {{event.last}}</span> <span class="label" ng-class="{'label-success': event.action =='approved', 'label-danger': event.action =='rejected', 'label-warning': event.action =='submitted'}">{{event.action}}</span> <span>{{event.time | date: short}}</span>
           </div>
         </div>
         <div class="comments-section panel panel-primary">
           <div class="panel-heading"><h6 class="panel-title">Comments</h6></div>
-          <div class="comment-level" ng-repeat="comment in project.activeTimecard.comments | orderBy: '-time'">
+          <div class="comment-level" ng-repeat="comment in project.allReviews.[$index].comments | orderBy: '-time'">
             <span class="history-section-name">{{comment.first}} {{comment.last}}</span> <span class="label" ng-class="{'label-success': comment.action =='approved', 'label-danger': comment.action =='rejected', 'label-warning': comment.action =='submitted'}">{{comment.action}}</span> <span>{{comment.time | date: short}}</span> <span class="comment-text">{{comment.text}}</span>
           </div>
 
