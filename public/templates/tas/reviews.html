@@ -112,9 +112,9 @@
       </div>
 
       <div class="reviews-submit-for-approval-area">
-        <button type="button" class="btn btn-success review-approve" ng-click="project.reviewsApproveTimecard($parent.$index)">approve</button>
+        <button type="button" class="btn btn-success review-approve" ng-click="project.reviewsApproveTimecard($index)">approve</button>
         <div class="review-reject-button-and-comments">
-          <button type="button" class="btn btn-danger review-reject" ng-click="project.reviewsRejectTimecard($parent.$index)"  ng-class="{'disabled': project.rejectionComments == ''}">reject </button>
+          <button type="button" class="btn btn-danger review-reject" ng-click="project.reviewsRejectTimecard($index)"  ng-class="{'disabled': project.rejectionComments == ''}">reject </button>
           <br>
           <input type="text" class="form-control rejection-comments" ng-model="project.rejectionComments" name="">
 
