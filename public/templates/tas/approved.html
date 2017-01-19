@@ -23,16 +23,16 @@
           <div class="day-data-area col-xs-11">
             <div class="row-display-times-call">
               <div class="time-display-holder call-and-wrap">
-                {{project.allApproved[$index][day].call}}
+                {{project.allApproved[$parent.$parent.$index][day].call}}
               </div>
               <div class="time-display-holder call-and-wrap">
-                {{project.allApproved[$index][day].wrap}}
+                {{project.allApproved[$parent.$index][day].wrap}}
               </div>
               <div class="time-display-holder">
-                {{project.allApproved[$index][day].meal1out}}
+                {{project.allApproved[$parent.$index][day].meal1out}}
               </div>
               <div class="time-display-holder">
-                {{project.allApproved[$index][day].meal1in}}
+                {{project.allApproved[$parent.$index][day].meal1in}}
               </div>
             </div>
             <div class="clearfix">
@@ -40,16 +40,16 @@
             </div>
             <div class="row-display-times-call">
               <div class="time-display-holder additional-info">
-                {{project.allApproved[$index][day].daytype}}
+                {{project.allApproved[$parent.$index][day].daytype}}
               </div>
               <div class="time-display-holder additional-info">
-                {{project.allApproved[$index][day].location}}
+                {{project.allApproved[$parent.$index][day].location}}
               </div>
               <div class="time-display-holder">
-                {{project.allApproved[$index][day].meal2out}}
+                {{project.allApproved[$parent.$index][day].meal2out}}
               </div>
               <div class="time-display-holder">
-                {{project.allApproved[$index][day].meal2in}}
+                {{project.allApproved[$parent.$index][day].meal2in}}
               </div>
             </div>
             <div class="clearfix">
@@ -57,14 +57,14 @@
             </div>
             <div class="row-display-times-call">
               <div class="day-project-list">
-                <span ng-repeat='item in project.allApproved[$index][day].projects' class="project-item-display">{{item}} | <span class="project-amount">{{100/project.allApproved[$index][day].projects.length | number: 0}}</span></span>
+                <span ng-repeat='item in project.allApproved[$parent.$index][day].projects' class="project-item-display">{{item}} | <span class="project-amount">{{100/project.allApproved[$parent.$index][day].projects.length | number: 0}}</span></span>
               </div>
               <div class="time-display-holder">
-                {{project.allApproved[$index][day].state}}
+                {{project.allApproved[$parent.$index][day].state}}
 
               </div>
               <div class="time-display-holder">
-                <span ng-show="project.allApproved[$index][day].perdiem">{{project.allApproved[$index][day].perdiem}}</span>
+                <span ng-show="project.allApproved[$parent.$index][day].perdiem">{{project.allApproved[$parent.$index][day].perdiem}}</span>
 
               </div>
 

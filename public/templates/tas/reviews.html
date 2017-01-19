@@ -103,7 +103,7 @@
         </div>
         <div class="comments-section panel panel-primary">
           <div class="panel-heading"><h6 class="panel-title">Comments</h6></div>
-          <div class="comment-level" ng-repeat="comment in project.allReviews.[$index].comments | orderBy: '-time'">
+          <div class="comment-level" ng-repeat="comment in project.allReviews[$index].comments | orderBy: '-time'">
             <span class="history-section-name">{{comment.first}} {{comment.last}}</span> <span class="label" ng-class="{'label-success': comment.action =='approved', 'label-danger': comment.action =='rejected', 'label-warning': comment.action =='submitted'}">{{comment.action}}</span> <span>{{comment.time | date: short}}</span> <span class="comment-text">{{comment.text}}</span>
           </div>
 
