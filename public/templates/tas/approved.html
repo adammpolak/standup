@@ -87,7 +87,7 @@
               <span ng-class="{'glyphicon-circle-arrow-down': !$last, 'glyphicon-ok-circle': $last}"class="glyphicon"></span> <span>{{level.first}} {{level.last}}</span>
             </div>
           </div>
-          <div class="if-in-approvals" ng-show="project.allApproved[$index].status == 'approvals'">
+          <div class="if-in-approvals" ng-show="project.allApproved[$index].status == 'approvals' || project.allApproved[$index].status == 'approved'">
             <div class="approver-level" ng-repeat="level in project.allApproved[$index].approvalflow">
               <div class="for-coloration" ng-class="{'level-not-approved': level.approved == false, 'level-approved': level.approved == true}">
                 <span ng-class="{'glyphicon-circle-arrow-down': !$last, 'glyphicon-ok-circle': $last}"class="glyphicon"></span> <span>{{level.first}} {{level.last}}</span>
