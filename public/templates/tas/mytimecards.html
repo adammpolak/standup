@@ -215,10 +215,10 @@
     <div class="display-days-section" ng-if="project.activeTimecard.status == 'active' || project.activeTimecard.status == 'rejected'">
 
 
-      <div class="day" ng-repeat="object in project.availableDays" ng-click="project.isThisDayHighLighted(object.day); project.highlightObject[object.day] = !project.highlightObject[object.day]; project.adjustSelectedDays(object.day)"ng-class="{'highlighted': project.highlightObject[object.day] == true}">
+      <div class="day" ng-repeat="day in project.availableDays" ng-click="project.isThisDayHighLighted(day); project.highlightObject[day] = !project.highlightObject[day]; project.adjustSelectedDays(day)"ng-class="{'highlighted': project.highlightObject[day] == true}">
         <div class="day-name-area col-xs-1">
           <span class="day-name">
-            {{object.day | limitTo: 3}}
+            {{day | limitTo: 3}}
           </span>
           <span class="day-date">
             1/16/17
@@ -231,16 +231,16 @@
         <div class="day-data-area col-xs-11">
           <div class="row-display-times-call">
             <div class="time-display-holder call-and-wrap">
-              {{project.activeTimecard[object.day].call}}
+              {{project.activeTimecard[day].call}}
             </div>
             <div class="time-display-holder call-and-wrap">
-              {{project.activeTimecard[object.day].wrap}}
+              {{project.activeTimecard[day].wrap}}
             </div>
             <div class="time-display-holder">
-              {{project.activeTimecard[object.day].meal1out}}
+              {{project.activeTimecard[day].meal1out}}
             </div>
             <div class="time-display-holder">
-              {{project.activeTimecard[object.day].meal1in}}
+              {{project.activeTimecard[day].meal1in}}
             </div>
           </div>
           <div class="clearfix">
@@ -248,16 +248,16 @@
           </div>
           <div class="row-display-times-call">
             <div class="time-display-holder additional-info">
-              {{project.activeTimecard[object.day].daytype}}
+              {{project.activeTimecard[day].daytype}}
             </div>
             <div class="time-display-holder additional-info">
-              {{project.activeTimecard[object.day].location}}
+              {{project.activeTimecard[day].location}}
             </div>
             <div class="time-display-holder">
-              {{project.activeTimecard[object.day].meal2out}}
+              {{project.activeTimecard[day].meal2out}}
             </div>
             <div class="time-display-holder">
-              {{project.activeTimecard[object.day].meal2in}}
+              {{project.activeTimecard[day].meal2in}}
             </div>
           </div>
           <div class="clearfix">
@@ -265,14 +265,14 @@
           </div>
           <div class="row-display-times-call">
             <div class="day-project-list">
-              <span ng-repeat='item in project.activeTimecard[object.day].projects' class="project-item-display">{{item}} | <span class="project-amount">{{100/project.activeTimecard[object.day].projects.length | number: 0}}</span></span>
+              <span ng-repeat='item in project.activeTimecard[day].projects' class="project-item-display">{{item}} | <span class="project-amount">{{100/project.activeTimecard[day].projects.length | number: 0}}</span></span>
             </div>
             <div class="time-display-holder">
-              {{project.activeTimecard[object.day].state}}
+              {{project.activeTimecard[day].state}}
 
             </div>
             <div class="time-display-holder">
-              <span ng-show="project.activeTimecard[object.day].perdiem">{{project.activeTimecard[object.day].perdiem}}</span>
+              <span ng-show="project.activeTimecard[day].perdiem">{{project.activeTimecard[day].perdiem}}</span>
 
             </div>
 
@@ -288,10 +288,10 @@
       </div>
     <div class="display-days-section-read-only" ng-if="project.activeTimecard.status == 'approvals' || project.activeTimecard.status == 'approved'">
 
-      <div class="day" ng-repeat="object in project.availableDays" >
+      <div class="day" ng-repeat="day in project.availableDays" >
         <div class="day-name-area col-xs-1">
           <span class="day-name">
-            {{object.day | limitTo: 3}}
+            {{day | limitTo: 3}}
           </span>
           <span class="day-date">
             1/16/17
@@ -304,16 +304,16 @@
         <div class="day-data-area col-xs-11">
           <div class="row-display-times-call">
             <div class="time-display-holder call-and-wrap">
-              {{project.activeTimecard[object.day].call}}
+              {{project.activeTimecard[day].call}}
             </div>
             <div class="time-display-holder call-and-wrap">
-              {{project.activeTimecard[object.day].wrap}}
+              {{project.activeTimecard[day].wrap}}
             </div>
             <div class="time-display-holder">
-              {{project.activeTimecard[object.day].meal1out}}
+              {{project.activeTimecard[day].meal1out}}
             </div>
             <div class="time-display-holder">
-              {{project.activeTimecard[object.day].meal1in}}
+              {{project.activeTimecard[day].meal1in}}
             </div>
           </div>
           <div class="clearfix">
@@ -321,16 +321,16 @@
           </div>
           <div class="row-display-times-call">
             <div class="time-display-holder additional-info">
-              {{project.activeTimecard[object.day].daytype}}
+              {{project.activeTimecard[day].daytype}}
             </div>
             <div class="time-display-holder additional-info">
-              {{project.activeTimecard[object.day].location}}
+              {{project.activeTimecard[day].location}}
             </div>
             <div class="time-display-holder">
-              {{project.activeTimecard[object.day].meal2out}}
+              {{project.activeTimecard[day].meal2out}}
             </div>
             <div class="time-display-holder">
-              {{project.activeTimecard[object.day].meal2in}}
+              {{project.activeTimecard[day].meal2in}}
             </div>
           </div>
           <div class="clearfix">
@@ -338,14 +338,14 @@
           </div>
           <div class="row-display-times-call">
             <div class="day-project-list">
-              <span ng-repeat='item in project.activeTimecard[object.day].projects' class="project-item-display">{{item}} | <span class="project-amount">{{100/project.activeTimecard[object.day].projects.length | number: 0}}</span></span>
+              <span ng-repeat='item in project.activeTimecard[day].projects' class="project-item-display">{{item}} | <span class="project-amount">{{100/project.activeTimecard[day].projects.length | number: 0}}</span></span>
             </div>
             <div class="time-display-holder">
-              {{project.activeTimecard[object.day].state}}
+              {{project.activeTimecard[day].state}}
 
             </div>
             <div class="time-display-holder">
-              <span ng-show="project.activeTimecard[object.day].perdiem">{{project.activeTimecard[object.day].perdiem}}</span>
+              <span ng-show="project.activeTimecard[day].perdiem">{{project.activeTimecard[day].perdiem}}</span>
 
             </div>
 
