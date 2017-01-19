@@ -7,10 +7,10 @@
       <br>
       <div class="display-days-section-read-only">
 
-        <div class="day" ng-repeat="object in project.availableDays" >
+        <div class="day" ng-repeat="day in project.availableDays" >
           <div class="day-name-area col-xs-1">
             <span class="day-name">
-              {{object.day | limitTo: 3}}
+              {{day | limitTo: 3}}
             </span>
             <span class="day-date">
               1/16/17
@@ -23,16 +23,16 @@
           <div class="day-data-area col-xs-11">
             <div class="row-display-times-call">
               <div class="time-display-holder call-and-wrap">
-                {{project.allReviews[$index][object.day].call}}
+                {{project.allReviews[$index][day].call}}
               </div>
               <div class="time-display-holder call-and-wrap">
-                {{project.allReviews[$index][object.day].wrap}}
+                {{project.allReviews[$index][day].wrap}}
               </div>
               <div class="time-display-holder">
-                {{project.allReviews[$index][object.day].meal1out}}
+                {{project.allReviews[$index][day].meal1out}}
               </div>
               <div class="time-display-holder">
-                {{project.allReviews[$index][object.day].meal1in}}
+                {{project.allReviews[$index][day].meal1in}}
               </div>
             </div>
             <div class="clearfix">
@@ -40,16 +40,16 @@
             </div>
             <div class="row-display-times-call">
               <div class="time-display-holder additional-info">
-                {{project.allReviews[$index][object.day].daytype}}
+                {{project.allReviews[$index][day].daytype}}
               </div>
               <div class="time-display-holder additional-info">
-                {{project.allReviews[$index][object.day].location}}
+                {{project.allReviews[$index][day].location}}
               </div>
               <div class="time-display-holder">
-                {{project.allReviews[$index][object.day].meal2out}}
+                {{project.allReviews[$index][day].meal2out}}
               </div>
               <div class="time-display-holder">
-                {{project.allReviews[$index][object.day].meal2in}}
+                {{project.allReviews[$index][day].meal2in}}
               </div>
             </div>
             <div class="clearfix">
@@ -57,14 +57,14 @@
             </div>
             <div class="row-display-times-call">
               <div class="day-project-list">
-                <span ng-repeat='item in project.allReviews[$index][object.day].projects' class="project-item-display">{{item}} | <span class="project-amount">{{100/project.allReviews[$index][object.day].projects.length | number: 0}}</span></span>
+                <span ng-repeat='item in project.allReviews[$index][day].projects' class="project-item-display">{{item}} | <span class="project-amount">{{100/project.allReviews[$index][day].projects.length | number: 0}}</span></span>
               </div>
               <div class="time-display-holder">
-                {{project.allReviews[$index][object.day].state}}
+                {{project.allReviews[$index][day].state}}
 
               </div>
               <div class="time-display-holder">
-                <span ng-show="project.allReviews[$index][object.day].perdiem">{{project.allReviews[$index][object.day].perdiem}}</span>
+                <span ng-show="project.allReviews[$index][day].perdiem">{{project.allReviews[$index][day].perdiem}}</span>
 
               </div>
 

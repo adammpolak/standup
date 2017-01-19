@@ -9,7 +9,7 @@
 
     this.timecardFilter = "all"
     this.timecardSelected = "2017-01-22T08:00:00.000Z"
-    this.availableDays = [{day:"monday"}, {day:"tuesday"}, {day:"wednesday"}, {day:"thursday"}, {day:"friday"}, {day: "saturday"}, {day: "sunday"}]
+    this.availableDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
 
    this.setTimecardFilter = function(filter) {
      self.timecardFilter = filter
