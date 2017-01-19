@@ -923,13 +923,15 @@
           }
         }
         self.allApproved = []
-        for (var x = 0; x<self.user.approved.length; x++) {
+        if (self.user) {
+          for (var x = 0; x<self.user.approved.length; x++) {
 
-          var owner = self.findUserById(self.user.approved[x].ownerid)
-          timecard_id = self.user.approved[x].timecardid
-          for (var y = 0; y < owner.timecards.length; y++) {
-            if (owner.timecards[y]._id == timecard_id) {
-              self.allApproved.push(owner.timecards[y])
+            var owner = self.findUserById(self.user.approved[x].ownerid)
+            timecard_id = self.user.approved[x].timecardid
+            for (var y = 0; y < owner.timecards.length; y++) {
+              if (owner.timecards[y]._id == timecard_id) {
+                self.allApproved.push(owner.timecards[y])
+              }
             }
           }
         }
