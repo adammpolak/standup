@@ -23,7 +23,7 @@
           <div class="day-data-area col-xs-11">
             <div class="row-display-times-call">
               <div class="time-display-holder call-and-wrap">
-                {{project.allApproved[$parent.$parent.$index][day].call}}
+                {{project.allApproved[$parent.$index][day].call}}
               </div>
               <div class="time-display-holder call-and-wrap">
                 {{project.allApproved[$parent.$index][day].wrap}}
@@ -103,7 +103,7 @@
         </div>
         <div class="comments-section panel panel-primary">
           <div class="panel-heading"><h6 class="panel-title">Comments</h6></div>
-          <div class="history-level" ng-repeat="comment in project.activeTimecard.comments | orderBy: '-time'">
+          <div class="history-level" ng-repeat="comment in project.allApproved[$index].comments | orderBy: '-time'">
             <span class="history-section-name">{{comment.first}} {{comment.last}}</span> <span class="label" ng-class="{'label-success': comment.action =='approved', 'label-danger': comment.action =='rejected', 'label-warning': comment.action =='submitted'}">{{comment.action}}</span> <span>{{comment.time | date: short}}</span> <span>{{comment.text}}</span>
           </div>
 
