@@ -1,13 +1,13 @@
 <div class="container">
   <div class="reviews-timecard-list">
-    <div class="col-sm-8 timecard-main" ng-repeat="review in project.allReviews track by $index">
-      <span class="timecard-leftnav-header-text">Week Ending {{project.allReviews[$index].weekending | date: medium}}
+    <div class="col-sm-8 timecard-main" ng-repeat="review in project.allReviews track by $parent.$index">
+      <span class="timecard-leftnav-header-text">Week Ending {{project.allReviews[$parent.$index].weekending | date: medium}}
          </span>
-         <span class="timecard-leftnav-header-text">{{project.allReviews[$index].ownerfirstname}} {{project.allReviews[$index].ownerlastname}}</span>
+         <span class="timecard-leftnav-header-text">{{project.allReviews[$parent.$index].ownerfirstname}} {{project.allReviews[$parent.$index].ownerlastname}}</span>
       <br>
       <div class="display-days-section-read-only">
 
-        <div class="day" ng-repeat="day in project.availableDays" >
+        <div class="day" ng-repeat="day in project.availableDays track by $" >
           <div class="day-name-area col-xs-1">
             <span class="day-name">
               {{day | limitTo: 3}}
@@ -23,16 +23,16 @@
           <div class="day-data-area col-xs-11">
             <div class="row-display-times-call">
               <div class="time-display-holder call-and-wrap">
-                {{project.allReviews[$index][day].call}}
+                {{project.allReviews[$parent.$parent.$index][day].call}}
               </div>
               <div class="time-display-holder call-and-wrap">
-                {{project.allReviews[$index][day].wrap}}
+                {{project.allReviews[$parent.$index][day].wrap}}
               </div>
               <div class="time-display-holder">
-                {{project.allReviews[$index][day].meal1out}}
+                {{project.allReviews[$parent.$index][day].meal1out}}
               </div>
               <div class="time-display-holder">
-                {{project.allReviews[$index][day].meal1in}}
+                {{project.allReviews[$parent.$index][day].meal1in}}
               </div>
             </div>
             <div class="clearfix">
@@ -40,16 +40,16 @@
             </div>
             <div class="row-display-times-call">
               <div class="time-display-holder additional-info">
-                {{project.allReviews[$index][day].daytype}}
+                {{project.allReviews[$parent.$index][day].daytype}}
               </div>
               <div class="time-display-holder additional-info">
-                {{project.allReviews[$index][day].location}}
+                {{project.allReviews[$parent.$index][day].location}}
               </div>
               <div class="time-display-holder">
-                {{project.allReviews[$index][day].meal2out}}
+                {{project.allReviews[$parent.$index][day].meal2out}}
               </div>
               <div class="time-display-holder">
-                {{project.allReviews[$index][day].meal2in}}
+                {{project.allReviews[$parent.$index][day].meal2in}}
               </div>
             </div>
             <div class="clearfix">
@@ -57,14 +57,14 @@
             </div>
             <div class="row-display-times-call">
               <div class="day-project-list">
-                <span ng-repeat='item in project.allReviews[$index][day].projects' class="project-item-display">{{item}} | <span class="project-amount">{{100/project.allReviews[$index][day].projects.length | number: 0}}</span></span>
+                <span ng-repeat='item in project.allReviews[$parent.$index][day].projects' class="project-item-display">{{item}} | <span class="project-amount">{{100/project.allReviews[$parent.$index][day].projects.length | number: 0}}</span></span>
               </div>
               <div class="time-display-holder">
-                {{project.allReviews[$index][day].state}}
+                {{project.allReviews[$parent.$index][day].state}}
 
               </div>
               <div class="time-display-holder">
-                <span ng-show="project.allReviews[$index][day].perdiem">{{project.allReviews[$index][day].perdiem}}</span>
+                <span ng-show="project.allReviews[$parent.$index][day].perdiem">{{project.allReviews[$parent.$index][day].perdiem}}</span>
 
               </div>
 
@@ -82,13 +82,13 @@
       <div class="approval-history-comments-section">
         <div class="approval-flow-display panel panel-primary">
           <div class="panel-heading"><h6 class="panel-title">Approvals</h6></div>
-          <div class="if-active-or-rejected" ng-show="project.allReviews[$index].status == 'active' || project.allReviews[$index].status == 'rejected'">
+          <div class="if-active-or-rejected" ng-show="project.allReviews[$parent.$index].status == 'active' || project.allReviews[$parent.$index].status == 'rejected'">
             <div class="approver-level" ng-repeat="level in project.currentUserApprovalFlow">
               <span ng-class="{'glyphicon-circle-arrow-down': !$last, 'glyphicon-ok-circle': $last}"class="glyphicon"></span> <span>{{level.first}} {{level.last}}</span>
             </div>
           </div>
-          <div class="if-in-approvals" ng-show="project.allReviews[$index].status == 'approvals'">
-            <div class="approver-level" ng-repeat="level in project.allReviews[$index].approvalflow">
+          <div class="if-in-approvals" ng-show="project.allReviews[$parent.$index].status == 'approvals'">
+            <div class="approver-level" ng-repeat="level in project.allReviews[$parent.$index].approvalflow">
               <div class="for-coloration" ng-class="{'level-not-approved': level.approved == false, 'level-approved': level.approved == true}">
                 <span ng-class="{'glyphicon-circle-arrow-down': !$last, 'glyphicon-ok-circle': $last}"class="glyphicon"></span> <span>{{level.first}} {{level.last}}</span>
               </div>
@@ -97,7 +97,7 @@
         </div>
         <div class="history-section panel panel-primary">
           <div class="panel-heading"><h6 class="panel-title">History</h6></div>
-          <div class="history-level" ng-repeat="event in project.allReviews[$index].history | orderBy: ''">
+          <div class="history-level" ng-repeat="event in project.allReviews[$parent.$index].history | orderBy: ''">
             <span class="history-section-name">{{event.first}} {{event.last}}</span> <span class="label" ng-class="{'label-success': event.action =='approved', 'label-danger': event.action =='rejected', 'label-warning': event.action =='submitted'}">{{event.action}}</span> <span>{{event.time | date: short}}</span>
           </div>
         </div>
@@ -112,9 +112,9 @@
       </div>
 
       <div class="reviews-submit-for-approval-area">
-        <button type="button" class="btn btn-success review-approve" ng-click="project.reviewsApproveTimecard($index)">approve</button>
+        <button type="button" class="btn btn-success review-approve" ng-click="project.reviewsApproveTimecard($parent.$index)">approve</button>
         <div class="review-reject-button-and-comments">
-          <button type="button" class="btn btn-danger review-reject" ng-click="project.reviewsRejectTimecard($index)"  ng-class="{'disabled': project.rejectionComments == ''}">reject </button>
+          <button type="button" class="btn btn-danger review-reject" ng-click="project.reviewsRejectTimecard($parent.$index)"  ng-class="{'disabled': project.rejectionComments == ''}">reject </button>
           <br>
           <input type="text" class="form-control rejection-comments" ng-model="project.rejectionComments" name="">
 
