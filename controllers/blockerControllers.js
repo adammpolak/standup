@@ -17,7 +17,7 @@ router.get('/', function(req, res){
 
 // ROUTE :: CREATE ------------------------one blocker
 router.post('/', function(req, res){
-  console.log("req.body:" + req.body);
+  console.log(req.body);
   Blocker.create(req.body)
   .then(function(blocker){
     console.log(blocker);

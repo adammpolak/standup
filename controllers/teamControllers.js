@@ -17,7 +17,7 @@ router.get('/', function(req, res){
 
 // ROUTE :: CREATE ------------------------one team
 router.post('/', function(req, res){
-  console.log("req.body:" + req.body);
+  console.log(req.body);
   Team.create(req.body)
   .then(function(team){
     console.log(team);

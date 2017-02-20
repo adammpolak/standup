@@ -17,7 +17,7 @@ router.get('/', function(req, res){
 
 // ROUTE :: CREATE ------------------------one note
 router.post('/', function(req, res){
-  console.log("req.body:" + req.body);
+  console.log(req.body);
   Note.create(req.body)
   .then(function(note){
     console.log(note);
