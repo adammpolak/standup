@@ -52,9 +52,9 @@ app.use('/api/standupitems', require('./controllers/standupitemControllers.js'))
 app.use('/api/users', require('./controllers/usersController.js'));
 app.use('/api/helpers', require('./controllers/helpersController.js'));
 
-app.all("/*", function(req,res,next) {
-  res.sendFile("index.html", { root: __dirname + "/public" });
-})
+// app.all("/*", function(req,res,next) {
+//   res.sendFile("index.html", { root: __dirname + "/public" });
+// })
 
 
 
