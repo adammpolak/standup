@@ -38,7 +38,7 @@
           ACTIVE BLOCKERS
         </div>
         <div class="add-blocker-section">
-          <input type="text" ng-model="activeBlocker.name" placeholder="Add a blocker...">
+          <input type="text" ng-model="activeBlocker.name" placeholder="Add a blocker..." value="">
           <button type="button" class="add-active-blocker-button" ng-click="project.addActiveBlocker(activeBlocker)">Add Blocker</button>
         </div>
         <div class="blocker-item-section" ng-repeat="activeitem in project.activeTeam.blockers track by $index" ng-if="activeitem.activestatus">
@@ -60,10 +60,6 @@
               </div>
             </div>
           </div>
-          <div class="blocker-item-comments-area" ng-show="activeitem.show">
-              <input type="text" ng-model="activeitem.commentinput" placeholder="Add a comment...">
-              <button type="button" class="add-comment-button" ng-click="project.addComment(activeitem)">Update</button>
-          </div>
           <div class="comments-header" ng-if="activeitem.comments.length">
             LATEST<span ng-if=
             "activeitem.comments.length > 1"> <span class="latest-circle">     ●</span> <button ng-show="!activeitem.showAllComments" ng-click="project.showAllComments(activeitem)">VIEW ALL ({{activeitem.comments.length}})</button><button ng-show="activeitem.showAllComments" ng-click="project.showAllComments(activeitem)">HIDE</button></span>
@@ -82,6 +78,10 @@
 
             </div>
 
+          </div>
+          <div class="blocker-item-comments-area" ng-show="activeitem.show">
+              <input type="text" ng-model="activeitem.commentinput" placeholder="Add a comment...">
+              <button type="button" class="add-comment-button" ng-click="project.addComment(activeitem)">Update</button>
           </div>
 
         </div>
@@ -120,10 +120,6 @@
               </div>
             </div>
           </div>
-          <div class="blocker-item-comments-area" ng-show="activeitem.show">
-              <input type="text" ng-model="activeitem.commentinput" placeholder="Add a comment...">
-              <button type="button" class="add-comment-button" ng-click="project.addComment(activeitem)">Update</button>
-          </div>
           <div class="comments-header" ng-if="activeitem.comments.length">
             LATEST<span ng-if=
             "activeitem.comments.length > 1"> <span class="latest-circle">     ●</span> <button ng-show="!activeitem.showAllComments" ng-click="project.showAllComments(activeitem)">VIEW ALL ({{activeitem.comments.length}})</button><button ng-show="activeitem.showAllComments" ng-click="project.showAllComments(activeitem)">HIDE</button></span>
@@ -142,6 +138,10 @@
 
             </div>
 
+          </div>
+          <div class="blocker-item-comments-area" ng-show="activeitem.show">
+              <input type="text" ng-model="activeitem.commentinput" placeholder="Add a comment...">
+              <button type="button" class="add-comment-button" ng-click="project.addComment(activeitem)">Update</button>
           </div>
 
         </div>

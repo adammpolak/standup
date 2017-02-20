@@ -397,6 +397,10 @@
   color: #368AC0;
 }
 
+.add-comment-button:focus {
+  outline: none;
+}
+
 .comments-header {
   padding-left: 21px;
   margin-top: 6px;

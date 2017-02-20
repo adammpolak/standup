@@ -46,7 +46,7 @@
 
 
     this.addActiveBlocker = function(activeBlocker) {
-      if (activeBlocker) {
+      if (activeBlocker && activeBlocker.name != "") {
         var blocker = {
           name: activeBlocker.name,
           owner: self.user.firstname + " " + self.user.lastname,
@@ -57,6 +57,7 @@
         $http.post('api/blockers/', blocker)
         .then(function(blockerresponse){
           activeBlocker.name = "";
+          activeBlocker = null;
           self.activeTeam.blockers.push(blockerresponse.data)
           $http.put(`api/teams/`, self.activeTeam)
           .then(function(response){
@@ -77,25 +78,27 @@
     }
 
     this.addComment = function(blocker) {
-      var comment = {
-        text: blocker.commentinput,
-        owner: self.user.firstname + " " + self.user.lastname,
-        ownerid: self.user._id,
-      }
-      $http.post('api/notes/', comment)
-      .then(function(commentresponse){
-        blocker.commentinput = "";
-        blocker.comments.push(commentresponse.data)
-        blocker.show = false;
-        blocker.showAllComments = false;
-        $http.put(`api/blockers/`, blocker)
-        .then(function(blockerresponse){
-          $http.put(`api/teams/`, self.activeTeam)
-          .then(function(teamresponse){
-            self.activeTeam = teamresponse.data
+      if (blocker.commentinput != "") {
+        var comment = {
+          text: blocker.commentinput,
+          owner: self.user.firstname + " " + self.user.lastname,
+          ownerid: self.user._id,
+        }
+        $http.post('api/notes/', comment)
+        .then(function(commentresponse){
+          blocker.commentinput = "";
+          blocker.comments.push(commentresponse.data)
+          blocker.show = false;
+          blocker.showAllComments = false;
+          $http.put(`api/blockers/`, blocker)
+          .then(function(blockerresponse){
+            $http.put(`api/teams/`, self.activeTeam)
+            .then(function(teamresponse){
+              self.activeTeam = teamresponse.data
+            })
           })
         })
-      })
+      }
     }
 
     this.resolveBlocker = function(blocker, index) {
@@ -117,7 +120,7 @@
     }
 
     this.addUpcomingBlocker = function(upcomingBlocker) {
-      if (upcomingBlocker) {
+      if (upcomingBlocker  && upcomingBlocker .name != "") {
         var blocker = {
           name: upcomingBlocker.name,
           owner: self.user.firstname + " " + self.user.lastname,
