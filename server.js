@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var port = process.env.PORT || 3000;
 
 mongoose.Promise = global.Promise;
-var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/itv';
+var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/standup';
 
 var path = require('path');
 var logger = require('morgan');
@@ -45,7 +45,10 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use('/api/projects', require('./controllers/projectControllers.js'));
+app.use('/api/teams', require('./controllers/teamControllers.js'));
+app.use('/api/blockers', require('./controllers/blockerControllers.js'));
+app.use('/api/notes', require('./controllers/noteControllers.js'));
+app.use('/api/standupitems', require('./controllers/standupitemControllers.js'));
 app.use('/api/users', require('./controllers/usersController.js'));
 app.use('/api/helpers', require('./controllers/helpersController.js'));
 

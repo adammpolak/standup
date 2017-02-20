@@ -1,0 +1,163 @@
+<div class="standups-header">
+  <div class="container">
+    <div class="col-lg-12">
+      <div class="portallogo">
+        PORTAL
+      </div>
+      <div class="name-and-logout">
+        <span>{{project.user.firstname}} {{project.user.lastname}}</span>
+        <span>logout</span>
+      </div>
+      <div class="team-title">
+        {{project.activeTeam.name}} <a ui-sref="teams" class="back-to-teams">back to teams</a>
+      </div>
+
+      <div class="standups-tab">
+        <span>Standups</span>
+      </div>
+      <div class="standups-underline">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="col-lg-5 left-side">
+    <div class="today">
+      Today
+    </div>
+    <div class="today-date">
+      {{project.now | date:'MMM dd, yyyy'}}
+    </div>
+    <div class="blockers-header-bar">
+    </div>
+    <div class="active-and-upcoming-blockers-section">
+      <div class="active-blockers-section">
+        <div class="blockers-title-header">
+          ACTIVE BLOCKERS
+        </div>
+        <div class="add-blocker-section">
+          <input type="text" ng-model="activeBlocker.name" placeholder="Add a blocker...">
+          <button type="button" class="add-active-blocker-button" ng-click="project.addActiveBlocker(activeBlocker)">Add Blocker</button>
+        </div>
+        <div class="blocker-item-section" ng-repeat="activeitem in project.activeTeam.blockers track by $index" ng-if="activeitem.activestatus">
+          <div class="blocker-item-top-section">
+            <div class="red-circle-section">
+              <div class="red-circle"></div>
+            </div>
+            <div class="blocker-item-name-date-title-update-resolve">
+              <div class="blocker-item-name-and-date">
+                <div class="name-and-date-name">{{activeitem.owner}}</div>
+                <div class="name-and-date-date">{{activeitem.createdAt | date:'MMM dd, yyyy'}}</div>
+              </div>
+              <div class="blocker-item-name">
+                {{activeitem.name}}
+              </div>
+              <div class="blocker-item-update-resolve">
+                <button type="button" name="button" class="update-resolve-button" ng-click="project.expandCommentSection(activeitem)">Update</button>
+                <button type="button" name="button" class="update-resolve-button" ng-click="project.resolveBlocker(activeitem,$index)">Resolved</button>
+              </div>
+            </div>
+          </div>
+          <div class="blocker-item-comments-area" ng-show="activeitem.show">
+              <input type="text" ng-model="activeitem.commentinput" placeholder="Add a comment...">
+              <button type="button" class="add-comment-button" ng-click="project.addComment(activeitem)">Update</button>
+          </div>
+          <div class="comments-header" ng-if="activeitem.comments.length">
+            LATEST<span ng-if=
+            "activeitem.comments.length > 1"> <span class="latest-circle">     ●</span> <button ng-show="!activeitem.showAllComments" ng-click="project.showAllComments(activeitem)">VIEW ALL ({{activeitem.comments.length}})</button><button ng-show="activeitem.showAllComments" ng-click="project.showAllComments(activeitem)">HIDE</button></span>
+          </div>
+          <div class="comment" ng-repeat="comment in activeitem.comments" ng-show="$last || activeitem.showAllComments">
+            <div class="comment-date">
+              {{comment.createdAt | date:'MMM dd, yyyy'}}
+            </div>
+            <div class="comment-owner-and-text">
+              <div class="comment-owner">
+                {{comment.owner}}
+              </div>
+              <div class="comment-text">
+                {{comment.text}}
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="no-active-blockers-section" ng-show="project.activeBlockersCount == 0">
+          NO ACTIVE BLOCKERS
+          <br>
+          <br>
+          {{project.activeEmptyMessage}}
+        </div>
+      </div>
+      <div class="upcoming-blockers-section">
+        <div class="blockers-title-header">
+          UPCOMING BLOCKERS
+        </div>
+        <div class="add-blocker-section">
+          <input type="text" ng-model="upcomingBlocker.name" name="" value="" placeholder="Add upcoming blocker...">
+          <button type="button" class="add-active-blocker-button" ng-click="project.addUpcomingBlocker(upcomingBlocker)">Add Blocker</button>
+        </div>
+        <div class="blocker-item-section" ng-repeat="activeitem in project.activeTeam.blockers track by $index" ng-if="!activeitem.activestatus">
+          <div class="blocker-item-top-section">
+            <div class="red-circle-section">
+              <div class="orange-circle"></div>
+            </div>
+            <div class="blocker-item-name-date-title-update-resolve">
+              <div class="blocker-item-name-and-date">
+                <div class="name-and-date-name">{{activeitem.owner}}</div>
+                <div class="name-and-date-date">{{activeitem.createdAt | date:'MMM dd, yyyy'}}</div>
+              </div>
+              <div class="blocker-item-name">
+                {{activeitem.name}}
+              </div>
+              <div class="blocker-item-update-resolve">
+                <button type="button" name="button" class="update-resolve-button" ng-click="project.expandCommentSection(activeitem)">Update</button>
+                <button type="button" name="button" class="update-resolve-button" ng-click="project.resolveBlocker(activeitem,$index)">Resolved</button>
+                <button type="button" name="button" class="update-resolve-button" ng-click="project.escalateBlocker(activeitem,$index)">Escalate</button>
+              </div>
+            </div>
+          </div>
+          <div class="blocker-item-comments-area" ng-show="activeitem.show">
+              <input type="text" ng-model="activeitem.commentinput" placeholder="Add a comment...">
+              <button type="button" class="add-comment-button" ng-click="project.addComment(activeitem)">Update</button>
+          </div>
+          <div class="comments-header" ng-if="activeitem.comments.length">
+            LATEST<span ng-if=
+            "activeitem.comments.length > 1"> <span class="latest-circle">     ●</span> <button ng-show="!activeitem.showAllComments" ng-click="project.showAllComments(activeitem)">VIEW ALL ({{activeitem.comments.length}})</button><button ng-show="activeitem.showAllComments" ng-click="project.showAllComments(activeitem)">HIDE</button></span>
+          </div>
+          <div class="comment" ng-repeat="comment in activeitem.comments" ng-show="$last || activeitem.showAllComments">
+            <div class="comment-date">
+              {{comment.createdAt | date:'MMM dd, yyyy'}}
+            </div>
+            <div class="comment-owner-and-text">
+              <div class="comment-owner">
+                {{comment.owner}}
+              </div>
+              <div class="comment-text">
+                {{comment.text}}
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="no-active-blockers-section" ng-show="project.upcomingBlockersCount == 0">
+          NO UPCOMING BLOCKERS
+          <br>
+          <br>
+          {{project.upcomingEmptyMessage}}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-lg-7 right-side">
+
+  </div>
+
+</div>

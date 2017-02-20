@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html ng-app='itvApp'>
+<html ng-app='standupApp'>
   <head>
     <meta charset="utf-8">
-    <title>TAS</title>
+    <title>Stand Up</title>
+    <base href="/">
     <script
     src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -13,56 +14,18 @@
     <script src="/js/app.js" charset="utf-8"></script>
     <script src="/js/projectController.js" charset="utf-8"></script>
     <script src="/js/usersController.js" charset="utf-8"></script>
-    <base href="/">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angucomplete-alt/2.4.1/angucomplete-alt.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-chosen-localytics/1.4.0/angular-chosen.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.css" />
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="/css/style.css" media="screen" title="no title">
-    <link rel="stylesheet" type="text/css" href="./bower_components/chosen/chosen.css" />
-    <!-- <script src="./bower_components/chosen/chosen.jquery.js"></script>
-    <script src="./bower_components/angular-chosen-localytics/dist/angular-chosen.min.js"></script> -->
-
+    <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js" charset="utf-8"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   </head>
   <body>
-<nav class="navbar navbar-default first" ng-controller="projectController as project" ng-show="project.user">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">iTV</a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-left">
-        <li><a ui-sref-active='current' ui-sref="tas">TAS</a></li>
-        <li><a ui-sref-active='current' ui-sref="tas-admin" ng-show="project.user.admin">TAS Admin</a></li>
-        <!-- <li><a ui-sref="signin" ng-if="!project.isAdam">Log Out</a></li> -->
-        <!-- <li><a ui-sref="landing" ng-if='project.isUser' ng-click=project.logout()>Log Out</a></li> -->
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a ui-sref="landing" ng-click=project.logout()>Log Out</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
     <main ui-view>
     </main>
   </body>
