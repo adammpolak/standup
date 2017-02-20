@@ -166,6 +166,15 @@
 
     }
 
+    this.logout = function() {
+      $http.delete('/api/users/logout')
+      .then(function(response){
+        // $state.go('landing',{}, {url: '/'});
+        // window.location.reload(true);
+        $window.location.href = '/';
+      });
+    }
+
 
 
 

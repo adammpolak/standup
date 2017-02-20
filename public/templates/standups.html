@@ -6,7 +6,7 @@
       </div>
       <div class="name-and-logout">
         <span>{{project.user.firstname}} {{project.user.lastname}}</span>
-        <span>logout</span>
+        <span ng-click="project.logout()">logout</span>
       </div>
       <div class="team-title">
         {{project.activeTeam.name}} <a ui-sref="teams" class="back-to-teams">back to teams</a>
