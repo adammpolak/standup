@@ -506,3 +506,40 @@
   color: #50535A;
   letter-spacing: 1.5px;
 }
+
+{
+  "status": 201,
+  "statusText": "success",
+  "user": {
+    "__v": 0,
+    "updatedAt": "2017-02-20T02:28:43.954Z",
+    "createdAt": "2017-02-20T02:28:43.954Z",
+    "salt": "57b3ec519988a2a44b62655574d66544694915b0a5e16744632551375dcb14cf",
+    "hash": "3a3bc4108d1a8a8266d0700fdc10257bdc5837dba2f16d47a3ba8766cf238f2fad4b480fd9a7871c91cbd2aa9c87c6428089686ea58fb3c907b231456518b7acd26abe985271306a64e94c01ee02cc26f8e4c4e3159ed81248c09360301d8f91f9ed008e4d7c7c74838ebfd104ad100afbff3fc59c3178c170c587dd2f6dfbafa6730e461243914cc0f4d95220729a4e181046226d984322927716b1c3557d17ddc9321ef628e7fd3fe602c9abbfb2563170c0a034d6d0ca23aceb61b8e01ec263254dadcd88b874434441296f08b257061d125088d438111c54e2010cb3b359e6d17dfc51be6efb35f3aed1f93115806a3a2a4c677c6811bd34ed56e509858dd165a09f4a3203b21eeff87486b9b2c30ee012fa1e4710971e30da6ae7c9fc2c433131d69a5b0874cc873ede878881d325590d2ebf2adc0791f14ad97085fbf1824015996cd80cde33db4a2e57a3cb02b2f03f22a39edac35e0946aaf344064390721e04e4b1e86fe15a364c2655e080c7d46026ee386a21dbbbf1ac1e72fdb68884d10b567917c616209e00e9007691d0e7436dcdf66ff1e3a0373b218d2994b5ba4b5b24db51012a0bc78134c6b1d6c6eb596357b45b01cf9bc48d75f820c560082ea407154a2ace5e38eefae81e406d031065e3ade155bf88118d504378a01a5821cc1a7572c7db3a408926981000c21c73cb35ff7e8a718eabd8fdca3dfa",
+    "username": "frank",
+    "_id": "58aa545a59aee10004ea0f85",
+    "teams": []
+  }
+}
+
+{
+  "__v": 0,
+  "name": "Apple - RMM",
+  "_id": "58aa5707a3d029000447c9ea",
+  "members": [],
+  "archivedstandups": [],
+  "standups": [],
+  "resolvedblockers": [],
+  "blockers": []
+}
+
+{
+  "__v": 0,
+  "name": "Infor - AMEX",
+  "_id": "58aa5720a3d029000447c9eb",
+  "members": [],
+  "archivedstandups": [],
+  "standups": [],
+  "resolvedblockers": [],
+  "blockers": []
+}
