@@ -29,18 +29,21 @@
 
     this.displayActiveTeam = function() {
       if ($state.current.name == "standups") {
-        var teamIndex = JSON.parse(sessionStorage.getItem('teamIndex'))
-        self.activeTeam = self.userTeams[teamIndex]
-        self.runBlockersCount()
+        var teamID = JSON.parse(sessionStorage.getItem('teamID'))
+        $http.get(`api/teams/${teamID}`)
+        .then(function(response){
+          self.activeTeam = response.data
+        })
       }
     }
+
     this.runBlockersCount = function() {
       self.activeBlockersCount = (_.filter(self.activeTeam.blockers, ['activestatus', true]).length)
       self.upcomingBlockersCount = (_.filter(self.activeTeam.blockers, ['activestatus', false]).length)
     }
 
-    this.showStandups = function(index) {
-      sessionStorage.setItem('teamIndex', JSON.stringify(index))
+    this.showStandups = function(teamID) {
+      sessionStorage.setItem('teamID', JSON.stringify(teamID))
       $state.go('standups', {url: '/standups'});
     }
 

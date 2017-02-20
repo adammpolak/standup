@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="col-xs-6 col-xs-offset-3 team" ng-repeat="team in project.userTeams track by $index" ng-click="project.showStandups($index)">
+  <div class="col-xs-6 col-xs-offset-3 team" ng-repeat="team in project.userTeams track by $index" ng-click="project.showStandups(team._id)">
     {{team.name}}
   </div>
 </div>
