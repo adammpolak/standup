@@ -7,6 +7,7 @@ var teamSchema = new mongoose.Schema({
   standups: [],
   archivedstandups: [],
   members: [],
+  logourl: String,
 });
 
 module.exports = mongoose.model('Team', teamSchema);
