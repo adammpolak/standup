@@ -99,11 +99,11 @@
           </div>
           <form ng-submit="project.addComment(activeitem)">
 
-          <div class="blocker-item-comments-area" ng-show="activeitem.show">
-            <input type="text" ng-model="activeitem.commentinput" placeholder="Add a comment...">
-            <button type="button" class="add-comment-button">Update</button>
-          </div>
-        </form>
+            <div class="blocker-item-comments-area" ng-show="activeitem.show">
+              <input type="text" ng-model="activeitem.commentinput" placeholder="Add a comment...">
+              <button type="button" class="add-comment-button">Update</button>
+            </div>
+          </form>
 
         </div>
         <div class="no-active-blockers-section" ng-show="project.activeBlockersCount == 0">
@@ -118,11 +118,11 @@
           UPCOMING BLOCKERS
         </div>
         <form ng-submit="project.addUpcomingBlocker(upcomingBlocker)">
-        <div class="add-blocker-section">
-          <input type="text" ng-model="upcomingBlocker.name" name="" value="" placeholder="Add upcoming blocker...">
-          <button type="button" class="add-active-blocker-button">Add Blocker</button>
-        </div>
-      </form>
+          <div class="add-blocker-section">
+            <input type="text" ng-model="upcomingBlocker.name" name="" value="" placeholder="Add upcoming blocker...">
+            <button type="button" class="add-active-blocker-button">Add Blocker</button>
+          </div>
+        </form>
         <div class="blocker-item-section" ng-repeat="activeitem in project.activeTeam.blockers track by $index" ng-if="!activeitem.activestatus">
           <div class="blocker-item-top-section">
             <div class="red-circle-section">
@@ -164,11 +164,11 @@
           </div>
           <form ng-submit="project.addComment(activeitem)">
 
-          <div class="blocker-item-comments-area" ng-show="activeitem.show">
-            <input type="text" ng-model="activeitem.commentinput" placeholder="Add a comment...">
-            <button type="button" class="add-comment-button">Update</button>
-          </div>
-        </form>
+            <div class="blocker-item-comments-area" ng-show="activeitem.show">
+              <input type="text" ng-model="activeitem.commentinput" placeholder="Add a comment...">
+              <button type="button" class="add-comment-button">Update</button>
+            </div>
+          </form>
 
         </div>
         <div class="no-active-blockers-section" ng-show="project.upcomingBlockersCount == 0">
@@ -187,19 +187,47 @@
       <div class="my-standup-header">
         My Standup
       </div>
-      <div class="previous-next-header">
-        PREVIOUS
-      </div>
-      <div class="previous-next-header-horizontal-line">
-      </div>
-      <div class="previous-next-smaller-section">
-        Smaller Section
-        <div class="">
+      <div class="previous-section">
 
+        <div class="previous-next-header">
+          PREVIOUS
+        </div>
+        <div class="previous-next-header-horizontal-line">
+        </div>
+        <div class="previous-next-smaller-section">
+          <div class="previous-next-smaller-section-line" ng-repeat="standup in project.activeTeam.standups">
+            {{standup.text}}
+          </div>
+        </div>
+        <div ng-show="project.activeTeam.standups.length == 0" class="previous-next-header text-center">
+          No Previous Standups Posted
         </div>
       </div>
+      <div class="next-section">
+        <div class="previous-next-header next">
+          NEXT
+        </div>
+        <div class="previous-next-header-horizontal-line"></div>
+        <div class="previous-next-smaller-section">
+          <div class="previous-next-smaller-section-line" ng-repeat="standup in project.activeTeam.standups">
+            <div class="existing-standup-text">
+              {{standup.text}}
+            </div>
+            <button type="button" name="button">Mark completed</button>
+          </div>
+          <form ng-submit="project.addToDo()">
+
+          <div class="todo-item" ng-repeat="todo in project.todos track by $index" ng-class="{'selected-todo-item': highlight}">
+            <input type="text" name="" ng-model="todo.text" placeholder="Enter todo" ng-focus="highlight=true" ng-blur="highlight=false">
+            <button type="button" name="button" ng-click="project.removeToDo($index)"><span class="glyphicon glyphicon-remove-circle"></span></button>
+          </div>
+          <button class="add-todo-button">Add To Do</button>
+        </form>
+        </div>
+      </div>
+      <button class="save-standup-button" ng-click="project.saveStandUp()">
+        Save Standup
+      </button>
     </div>
 
   </div>
-
-</div>

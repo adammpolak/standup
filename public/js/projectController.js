@@ -158,13 +158,41 @@
       })
     }
 
+    this.todos = [{text: ""}]
 
     this.addToDo = function () {
+      this.todos.push({text: ""})
+    }
 
+    this.removeToDo = function (index) {
+      self.todos.splice(index,1);
     }
 
     this.saveStandUp = function() {
+      //this section saves all the standup items that didn't exist
+      var totalTodos = self.todos.length;
+      var totalPosted = 0;
+      _.forEach(self.todos, function(todo) {
+        if (todo.text != "") {
+          todo.owner = self.user.firstname + " " + self.user.lastname;
+          todo.owernid = self.user._id;
+          todo.completed = false;
+          todo.team = self.activeTeam._id;
+          $http.post('api/standupitems/', todo)
+          .then(function(standupresponse){
+            totalTodos++;
+            self.activeTeam.standups.push(standupresponse.data);
+            if (totalPosted = totalTodos) {
+              $http.put(`api/teams/`, self.activeTeam)
+              .then(function(teamresponse){
+                self.activeTeam = teamresponse.data;
+                self.todos = [{text: ""}];
+              })
+            }
+          })
+        }
 
+      })
     }
 
     this.now = new Date();
