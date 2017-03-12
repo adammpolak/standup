@@ -194,7 +194,7 @@
         </div>
         <div class="previous-next-header-horizontal-line">
         </div>
-        <div class="previous-next-smaller-section">
+        <div class="previous-next-smaller-section" ng-show="project.activeTeam.standups.length != 0">
           <div class="previous-next-smaller-section-line" ng-repeat="standup in project.activeTeam.standups">
             {{standup.text}}
           </div>
