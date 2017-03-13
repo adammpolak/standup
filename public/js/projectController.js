@@ -33,13 +33,15 @@
         $http.get(`api/teams/${teamID}`)
         .then(function(response){
           self.activeTeam = response.data
+          self.runBlockersCount();
+          self.saveStandups();
         })
       }
     }
 
     this.runBlockersCount = function() {
       self.activeBlockersCount = (_.filter(self.activeTeam.blockers, ['activestatus', true]).length)
-      self.upcomingBlockersCount = (_.filter(self.activeTeam.blockers, ['activestatus', false]).length)
+      self.upcomingBlockersCount = (_.filter(self.activeTeam.blockers, ['activestatus', false]).length);
     }
 
     this.showStandups = function(teamID) {
@@ -159,40 +161,69 @@
     }
 
     this.todos = [{text: ""}]
-
     this.addToDo = function () {
       this.todos.push({text: ""})
     }
-
     this.removeToDo = function (index) {
       self.todos.splice(index,1);
     }
 
     this.saveStandUp = function() {
-      //this section saves all the standup items that didn't exist
+      var now = new Date(); //used for when items were completed
+      //this creates an array of only completed standup items (to be archived)
+      var completedarray = _.filter(self.activeTeam.standups, function(o) { return o.completed; })
+      var totalCompleted = completedarray.length;
+      var totalCompletedSaved = 0;
+      //removes completed item (that will be archived) from current standups
+      _.remove(self.activeTeam.standups,{completed: true})
+      //prepares todos (the number of them and cleans out bad data)
+      _.remove(self.todos,{text: ""})
+      var totalTodoPosted = 0;
       var totalTodos = self.todos.length;
-      var totalPosted = 0;
-      _.forEach(self.todos, function(todo) {
-        if (todo.text != "") {
-          todo.owner = self.user.firstname + " " + self.user.lastname;
-          todo.owernid = self.user._id;
-          todo.completed = false;
-          todo.team = self.activeTeam._id;
-          $http.post('api/standupitems/', todo)
-          .then(function(standupresponse){
-            totalTodos++;
-            self.activeTeam.standups.push(standupresponse.data);
-            if (totalPosted = totalTodos) {
-              $http.put(`api/teams/`, self.activeTeam)
-              .then(function(teamresponse){
-                self.activeTeam = teamresponse.data;
-                self.todos = [{text: ""}];
-              })
-            }
-          })
-        }
 
+      //save each of completed items as saved
+      _.forEach(completedarray, function(standup, index) {
+        standup.completed_at= now;
+        $http.put(`api/standupitems/`, standup)
+        .then(function(standupitemresponse) {
+          totalCompletedSaved++
+          standupitem = standupitemresponse.data
+          //we push the updated standup item into archived standups in this team
+          self.activeTeam.archivedstandups.push(standupitem)
+          //all completed items have been updated and moved to archives
+          if (totalCompleted = totalCompletedSaved) {
+            _.forEach(self.todos, function(todo) {
+              todo.owner = self.user.firstname + " " + self.user.lastname;
+              todo.owernid = self.user._id;
+              todo.completed = false;
+              todo.team = self.activeTeam._id;
+              $http.post('api/standupitems/', todo)
+              .then(function(standupresponse){
+                totalTodoPosted++;
+                self.activeTeam.standups.push(standupresponse.data);
+                if (totalTodoPosted == totalTodos) {
+                  console.log(self.activeTeam);
+                  $http.put(`api/teams/`, self.activeTeam)
+                  .then(function(teamresponse){
+                    self.activeTeam = teamresponse.data;
+                    self.todos = [{text: ""}];
+                    self.runBlockersCount();
+                    self.saveStandups();
+                  })
+                }
+              })
+            })
+          }
+        })
       })
+    }
+    this.saveStandups = function() {
+      self.savedStandUps = angular.copy(self.activeTeam.standups)
+    }
+    this.revertStandups = function() {
+      self.todos = [{text: ""}]
+      self.activeTeam.standups = self.savedStandUps
+      self.saveStandups();
     }
 
     this.now = new Date();
