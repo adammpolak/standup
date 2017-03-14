@@ -29,7 +29,7 @@
           } else {
             self.user = res.data.user;
             // console.log(self.user)
-            $state.go('teams', {url: '/teams'});
+            $state.go('pick-team', {url: '/pick-team'});
           }
         })
     }

@@ -190,7 +190,7 @@
           standupitem = standupitemresponse.data
           //we push the updated standup item into archived standups in this team
           self.activeTeam.archivedstandups.push(standupitem)
-          //all completed items have been updated and moved to archives
+          //all completed items have been updated and moved to archives so now we move onto todo items that need to be created
           if (totalCompleted = totalCompletedSaved) {
             _.forEach(self.todos, function(todo) {
               todo.owner = self.user.firstname + " " + self.user.lastname;
@@ -201,6 +201,7 @@
               .then(function(standupresponse){
                 totalTodoPosted++;
                 self.activeTeam.standups.push(standupresponse.data);
+                //once every todo item has become a standup item and moved into the active Team current standups we save the entire team
                 if (totalTodoPosted == totalTodos) {
                   console.log(self.activeTeam);
                   $http.put(`api/teams/`, self.activeTeam)

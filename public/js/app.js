@@ -9,6 +9,21 @@
       controller: 'authController',
       controllerAs: 'auth',
     })
+    .state('pick-team', {
+      url: '/pick-team',
+      templateUrl: '/templates/pick-team.html',
+      controller: 'projectController',
+      controllerAs: 'project',
+      resolve:{ logged: function($http, $state){
+          $http.get('/api/helpers/get-user')
+            .then(function(res){
+              if (!res.data.user) {
+                $state.go('landing', {url: '/'});
+              }
+            })
+          }
+        }
+    })
     .state('teams', {
       url: '/teams',
       templateUrl: '/templates/teams.html',
