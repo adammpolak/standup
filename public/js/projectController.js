@@ -47,6 +47,7 @@
     this.showStandups = function(teamID) {
       sessionStorage.setItem('teamID', JSON.stringify(teamID))
       $state.go('standups', {url: '/standups'});
+      self.runBlockersCount();
     }
 
 
