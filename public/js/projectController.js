@@ -181,43 +181,64 @@
       var totalTodoPosted = 0;
       var totalTodos = self.todos.length;
 
-      //save each of completed items as saved
-      _.forEach(completedarray, function(standup, index) {
-        standup.completed_at= now;
-        $http.put(`api/standupitems/`, standup)
-        .then(function(standupitemresponse) {
-          totalCompletedSaved++
-          standupitem = standupitemresponse.data
-          //we push the updated standup item into archived standups in this team
-          self.activeTeam.archivedstandups.push(standupitem)
-          //all completed items have been updated and moved to archives so now we move onto todo items that need to be created
-          if (totalCompleted = totalCompletedSaved) {
-            _.forEach(self.todos, function(todo) {
-              todo.owner = self.user.firstname + " " + self.user.lastname;
-              todo.owernid = self.user._id;
-              todo.completed = false;
-              todo.team = self.activeTeam._id;
-              $http.post('api/standupitems/', todo)
-              .then(function(standupresponse){
-                totalTodoPosted++;
-                self.activeTeam.standups.push(standupresponse.data);
-                //once every todo item has become a standup item and moved into the active Team current standups we save the entire team
-                if (totalTodoPosted == totalTodos) {
-                  console.log(self.activeTeam);
-                  $http.put(`api/teams/`, self.activeTeam)
-                  .then(function(teamresponse){
-                    self.activeTeam = teamresponse.data;
-                    self.todos = [{text: ""}];
-                    self.runBlockersCount();
-                    self.saveStandups();
-                  })
-                }
-              })
+      doTodosFunction = function() {
+        if (totalTodos > 0 ) {
+          //save Todos before save teams
+          _.forEach(self.todos, function(todo) {
+            todo.owner = self.user.firstname + " " + self.user.lastname;
+            todo.owernid = self.user._id;
+            todo.completed = false;
+            todo.team = self.activeTeam._id;
+            $http.post('api/standupitems/', todo)
+            .then(function(standupresponse){
+              totalTodoPosted++;
+              self.activeTeam.standups.push(standupresponse.data);
+              //once every todo item has become a standup item and moved into the active Team current standups we save the entire team
+              if (totalTodoPosted == totalTodos) {
+                $http.put(`api/teams/`, self.activeTeam)
+                .then(function(teamresponse){
+                  self.activeTeam = teamresponse.data;
+                  self.todos = [{text: ""}];
+                  self.runBlockersCount();
+                  self.saveStandups();
+                })
+              }
             })
-          }
+          })
+        } else {
+          $http.put(`api/teams/`, self.activeTeam)
+          .then(function(teamresponse){
+            self.activeTeam = teamresponse.data;
+            self.todos = [{text: ""}];
+            self.runBlockersCount();
+            self.saveStandups();
+          })
+        }
+      }
+      //checks to see if first need to save completed before moves onto todos
+      if (totalCompleted > 0) {
+        //save items that have been completed
+        _.forEach(completedarray, function(standup, index) {
+          standup.completed_at= now;
+          $http.put(`api/standupitems/`, standup)
+          .then(function(standupitemresponse) {
+            totalCompletedSaved++
+            standupitem = standupitemresponse.data
+            //we push the updated standup item into archived standups in this team
+            self.activeTeam.archivedstandups.push(standupitem)
+            //all completed items have been updated and moved to archives so now we move onto todo items that need to be created
+            if (totalCompleted = totalCompletedSaved) {
+              doTodosFunction()
+            }
+          })
         })
-      })
+      } else {
+        //go to the todo function
+        doTodosFunction()
+      }
+
     }
+
     this.saveStandups = function() {
       self.savedStandUps = angular.copy(self.activeTeam.standups)
     }
